@@ -1,0 +1,4 @@
+framework module IAnalyticsSDK {
+  header "IAnalyticsSDK-Swift.h"
+  requires objc
+}
