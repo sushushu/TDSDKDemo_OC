@@ -145,6 +145,8 @@
     NSDictionary *params = @{@"method": @"wechat"};
     [[AnalyticsSDK shared] trackEventWithEventName:@"login_success" params:params];
     [self appendLog:@"【操作】上报自定义事件 login_success"];
+    
+    [[AnalyticsSDK shared] trackEventWithEventName:@"app_wakeup" params:nil];
 }
 - (void)testTrackPage {
     NSDictionary *params = @{@"from": @"demo"};
