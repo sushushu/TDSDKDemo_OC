@@ -1,0 +1,987 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1 effective-5.10 (swiftlang-6.1.0.110.21 clang-1700.0.13.3)
+// swift-module-flags: -target arm64-apple-ios13.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name IAnalyticsSDK
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -interface-compiler-version 6.1
+import AdSupport
+import AppTrackingTransparency
+import CommonCrypto
+import CryptoKit
+import Foundation
+import Network
+import Security
+import Swift
+import SystemConfiguration
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public class NetworkReachability {
+  public init?(hostName: Swift.String)
+  public func isReachable() -> Swift.Bool
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class CommonParams {
+  public static let shared: IAnalyticsSDK.CommonParams
+  public func getBaseInfo() -> [Swift.String : Any]
+  public func getDeviceInfo() -> [Swift.String : Any]
+  public func getOSInfo() -> [Swift.String : Any]
+  public func getScreenInfo() -> [Swift.String : Any]
+  public func getPerformanceInfo() -> [Swift.String : Any]
+  public func getAllCommonParams() -> [Swift.String : Any]
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class NetworkMonitor {
+  public typealias StatusChangeHandler = (Swift.Bool) -> Swift.Void
+  public static let kNetworkRetryInterval: Swift.Double
+  public func startMonitoring(handler: @escaping IAnalyticsSDK.NetworkMonitor.StatusChangeHandler)
+  public func stopMonitoring()
+  public var isNetworkAvailable: Swift.Bool {
+    get
+  }
+  public func checkNetworkPermission() -> Swift.Bool
+  @objc deinit
+}
+public enum NetworkError : Swift.Error {
+  case noConnection
+  case timeout
+  case invalidResponse
+  case serverError(Swift.String)
+  case unknown
+}
+@objc public enum ParameterSource : Swift.Int {
+  case deepLink = 0
+  case delayDeepLink = 1
+  case clipboard = 2
+  case unknown = 3
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension IAnalyticsSDK.ParameterSource {
+  public var stringValue: Swift.String {
+    get
+  }
+  public static func from(string: Swift.String) -> IAnalyticsSDK.ParameterSource
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class AnalyticsSDK : ObjectiveC.NSObject {
+  @objc public static let sdkVersion: Swift.String
+  @objc public static let shared: IAnalyticsSDK.AnalyticsSDK
+  public typealias DeepLinkHandlerObjC = @convention(block) (Foundation.NSURL, Foundation.NSDictionary) -> Swift.Void
+  @objc override dynamic public func copy() -> Any
+  @objc override dynamic public func mutableCopy() -> Any
+  @objc public func initialize(apiKey: Swift.String, clientId: Swift.String, aesSecret: Swift.String, apiUrl: Swift.String, debugMode: Swift.Bool = false, environment: Swift.String = "PRODUCTION", enableAdaptiveThrottling: Swift.Bool = true, initialUploadThreshold: Swift.Int = 20, initialUploadInterval: Swift.Int64 = 60000)
+  @objc public func setUserId(_ userId: Swift.String)
+  @objc public func getUserId() -> Swift.String?
+  @objc public func clearUserId()
+  @objc public func setUserProperty(_ key: Swift.String, value: Any)
+  @objc public func setUserProperties(_ properties: [Swift.String : Any])
+  @objc public func clearAllUserProperties()
+  @objc public func getAllUserProperties() -> [Swift.String : Any]
+  @objc public func clearUserProperty(_ key: Swift.String)
+  @objc public func getEventQueue() -> [[Swift.String : Any]]
+  @objc public func clearEventQueue()
+  @objc public func getEventQueueSize() -> Swift.Int
+  public func setEnvironment(_ environment: IAnalyticsSDK.Environment)
+  public func getEnvironment() -> IAnalyticsSDK.Environment
+  @objc public func setEventUploadThreshold(_ threshold: Swift.Int)
+  @objc public func setUploadInterval(_ interval: Foundation.TimeInterval)
+  @objc public func setDataRetentionDays(_ days: Swift.Int)
+  @objc public func setMaxRecords(_ maxRecords: Swift.Int)
+  @objc public func setMaxDatabaseSize(_ maxSize: Swift.Int)
+  @objc public func getDatabaseSize() -> Swift.Int
+  @objc public func cleanupLocalData() -> Swift.Int
+  @objc public func registerDeepLinkHandlerObjC(_ handler: @escaping IAnalyticsSDK.AnalyticsSDK.DeepLinkHandlerObjC)
+  @objc public func handleOpenURL(_ url: Foundation.URL, options: [UIKit.UIApplication.OpenURLOptionsKey : Any] = [:])
+  @objc public func handleDelayDeepLink(_ url: Foundation.URL, params: [Swift.String : Any] = [:])
+  @objc public func handleClipboardParams(_ clipboardContent: Swift.String)
+  @objc public func setUserAgent(_ ua: Swift.String)
+  @objc public func setUtmParams(_ utm: [Swift.String : Any])
+  @objc public func clearUtmParams()
+  @objc public func setDeviceProperty(_ key: Swift.String, value: Any)
+  @objc public func clearDeviceProperty(_ key: Swift.String)
+  @objc public func getAllDeviceProperties() -> [Swift.String : Any]
+  @objc public func getUserAgentString() -> Swift.String
+  @objc public func getUtmParams() -> [Swift.String : Any]
+  @objc public func getClipboardStringForce() -> Swift.String
+  @objc public func setParameterSource(_ source: IAnalyticsSDK.ParameterSource)
+  @objc public func getParameterSource() -> IAnalyticsSDK.ParameterSource
+  @objc public func getParameterSourceString() -> Swift.String
+  @objc public func setParameterSourceWithString(_ sourceString: Swift.String)
+  @objc public static let ParameterSourceDeepLink: Swift.String
+  @objc public static let ParameterSourceDelayDeepLink: Swift.String
+  @objc public static let ParameterSourceClipboard: Swift.String
+  @objc public static let ParameterSourceUnknown: Swift.String
+  @objc public func setParameterSourceWithConstant(_ sourceString: Swift.String)
+  @objc deinit
+}
+extension IAnalyticsSDK.AnalyticsSDK {
+  @objc dynamic public func trackEventWithEventName(_ eventName: Swift.String, params: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackPageWithPageName(_ pageName: Swift.String, params: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackRegisterEvent(utmParams: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackAppWakeupEvent(utmParams: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackRechargeEvent(amount: Swift.Double, utmParams: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackFirstLaunchEvent()
+  @objc dynamic public func trackSDKLaunchEvent()
+  @objc dynamic public func trackPage(_ pageName: Swift.String, params: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackEvent(_ eventName: Swift.String, params: [Swift.String : Any]? = nil)
+}
+extension IAnalyticsSDK.AnalyticsSDK {
+  @objc dynamic public func getNetworkStatus() -> Swift.String
+  @objc dynamic public func getUserAgent(completion: @escaping (Swift.String) -> Swift.Void)
+  @objc dynamic public func getFirstInstallTime() -> Foundation.Date?
+  @objc dynamic public func isFirstLaunch() -> Swift.Bool
+  @objc dynamic public func getClipboardParams() -> Swift.String
+  @objc dynamic public func clearClipboardParams()
+}
+@_hasMissingDesignatedInitializers public class EventValidator {
+  public static let shared: IAnalyticsSDK.EventValidator
+  public func validate(_ event: IAnalyticsSDK.CustomEvent) -> (isValid: Swift.Bool, error: Swift.String?)
+  @objc deinit
+}
+@objc public enum ClipboardPermissionStatus : Swift.Int {
+  case unknown = 0
+  case allowed = 1
+  case denied = 2
+  case undetermined = 3
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class TDLogger {
+  public static var consoleEnabled: Swift.Bool
+  public static let log: IAnalyticsSDK.TDLogger
+  public func info(_ message: Swift.String)
+  public func debug(_ message: Swift.String)
+  public func warning(_ message: Swift.String)
+  public func error(_ message: Swift.String)
+  public static func setup()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class DeviceMemory : ObjectiveC.NSObject {
+  open class func applicationUsage() -> (used: Swift.Double, total: Swift.Double)
+  open class func systemUsage() -> (free: Swift.Double, active: Swift.Double, inactive: Swift.Double, wired: Swift.Double, compressed: Swift.Double, total: Swift.Double)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum EventType : Swift.String, Swift.Codable {
+  case appLaunch
+  case appTerminate
+  case appEnterBackground
+  case appEnterForeground
+  case pageView
+  case buttonClick
+  case formSubmit
+  case search
+  case performance
+  case error
+  case crash
+  case custom
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum EventStatus : Swift.String, Swift.Codable {
+  case pending
+  case uploading
+  case success
+  case failed
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum EventPriority : Swift.Int, Swift.Codable {
+  case low
+  case normal
+  case high
+  case critical
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers open class DeviceSystem : ObjectiveC.NSObject {
+  public static let hardware: IAnalyticsSDK.HardwareHardware.Type
+  public static let cpu: IAnalyticsSDK.DeviceCPU.Type
+  public static let memory: IAnalyticsSDK.DeviceMemory.Type
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol FPSDelegate {
+  @objc optional func fps(fps: IAnalyticsSDK.DeviceFPS, currentFPS: Swift.Double)
+}
+@objc @_inheritsConvenienceInitializers open class DeviceFPS : ObjectiveC.NSObject {
+  open var isEnable: Swift.Bool
+  open var updateInterval: Swift.Double
+  weak open var delegate: (any IAnalyticsSDK.FPSDelegate)?
+  @objc override dynamic public init()
+  open func open()
+  open func close()
+  @objc deinit
+}
+@objc final public class TDKeychainUDIDManager : ObjectiveC.NSObject {
+  @objc public enum KeychainError : Swift.Int, Swift.Error {
+    case duplicateEntry
+    case unknown
+    case noData
+    case unexpectedData
+    case permissionDenied
+    public var localizedDescription: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public static var _nsErrorDomain: Swift.String {
+      get
+    }
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public struct Configuration {
+    public let service: Swift.String
+    public let account: Swift.String
+    public init(service: Swift.String? = nil, account: Swift.String = "deviceUDID")
+  }
+  @objc public static let shared: IAnalyticsSDK.TDKeychainUDIDManager
+  public init(configuration: IAnalyticsSDK.TDKeychainUDIDManager.Configuration = Configuration())
+  @objc final public func getUDIDStorageInfo() -> [Swift.String : Any]
+  @objc final public func getUDID() throws -> Swift.String
+  @objc final public func resetUDID() throws
+  @objc deinit
+}
+public struct CustomEvent : Swift.Codable {
+  public let id: Swift.String
+  public let type: IAnalyticsSDK.EventType
+  public let name: Swift.String
+  public let timestamp: Foundation.TimeInterval
+  public var status: IAnalyticsSDK.EventStatus
+  public let priority: IAnalyticsSDK.EventPriority
+  public var params: [Swift.String : Any] {
+    get
+    set
+  }
+  public init(type: IAnalyticsSDK.EventType, name: Swift.String, params: [Swift.String : Any] = [:], priority: IAnalyticsSDK.EventPriority = .normal)
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public class EventBuilder {
+  public init(type: IAnalyticsSDK.EventType, name: Swift.String)
+  @discardableResult
+  public func addParam(_ key: Swift.String, _ value: Any) -> IAnalyticsSDK.EventBuilder
+  @discardableResult
+  public func addParams(_ params: [Swift.String : Any]) -> IAnalyticsSDK.EventBuilder
+  @discardableResult
+  public func setPriority(_ priority: IAnalyticsSDK.EventPriority) -> IAnalyticsSDK.EventBuilder
+  public func build() -> IAnalyticsSDK.CustomEvent
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class DeviceCPU : ObjectiveC.NSObject {
+  public static var physicalCores: Swift.Int {
+    get
+  }
+  public static var logicalCores: Swift.Int {
+    get
+  }
+  public static func systemUsage() -> (system: Swift.Double, user: Swift.Double, idle: Swift.Double, nice: Swift.Double)
+  public class func applicationUsage() -> Swift.Double
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class AESEncryptionUtil {
+  public static func decrypt(encryptedBase64: Swift.String, clientSecret: Swift.String, salt: Swift.String) throws -> Swift.String
+  public static func encrypt(plainText: Swift.String, clientSecret: Swift.String, salt: Swift.String) throws -> Swift.String
+  @objc deinit
+}
+public enum Device {
+  case iPodTouch5
+  case iPodTouch6
+  case iPodTouch7
+  case iPhone4
+  case iPhone4s
+  case iPhone5
+  case iPhone5c
+  case iPhone5s
+  case iPhone6
+  case iPhone6Plus
+  case iPhone6s
+  case iPhone6sPlus
+  case iPhone7
+  case iPhone7Plus
+  case iPhoneSE
+  case iPhone8
+  case iPhone8Plus
+  case iPhoneX
+  case iPhoneXS
+  case iPhoneXSMax
+  case iPhoneXR
+  case iPhone11
+  case iPhone11Pro
+  case iPhone11ProMax
+  case iPhoneSE2
+  case iPhone12
+  case iPhone12Mini
+  case iPhone12Pro
+  case iPhone12ProMax
+  case iPhone13
+  case iPhone13Mini
+  case iPhone13Pro
+  case iPhone13ProMax
+  case iPhoneSE3
+  case iPhone14
+  case iPhone14Plus
+  case iPhone14Pro
+  case iPhone14ProMax
+  case iPhone15
+  case iPhone15Plus
+  case iPhone15Pro
+  case iPhone15ProMax
+  case iPhone16
+  case iPhone16Plus
+  case iPhone16Pro
+  case iPhone16ProMax
+  case iPhone16e
+  case iPad2
+  case iPad3
+  case iPad4
+  case iPadAir
+  case iPadAir2
+  case iPad5
+  case iPad6
+  case iPadAir3
+  case iPad7
+  case iPad8
+  case iPad9
+  case iPad10
+  case iPadA16
+  case iPadAir4
+  case iPadAir5
+  case iPadAir11M2
+  case iPadAir13M2
+  case iPadAir11M3
+  case iPadAir13M3
+  case iPadMini
+  case iPadMini2
+  case iPadMini3
+  case iPadMini4
+  case iPadMini5
+  case iPadMini6
+  case iPadMiniA17Pro
+  case iPadPro9Inch
+  case iPadPro12Inch
+  case iPadPro12Inch2
+  case iPadPro10Inch
+  case iPadPro11Inch
+  case iPadPro12Inch3
+  case iPadPro11Inch2
+  case iPadPro12Inch4
+  case iPadPro11Inch3
+  case iPadPro12Inch5
+  case iPadPro11Inch4
+  case iPadPro12Inch6
+  case iPadPro11M4
+  case iPadPro13M4
+  case homePod
+  indirect case simulator(IAnalyticsSDK.Device)
+  case unknown(Swift.String)
+  public static var current: IAnalyticsSDK.Device {
+    get
+  }
+  public static var identifier: Swift.String
+  public static func mapToDevice(identifier: Swift.String) -> IAnalyticsSDK.Device
+  public static func realDevice(from device: IAnalyticsSDK.Device) -> IAnalyticsSDK.Device
+  public var diagonal: Swift.Double {
+    get
+  }
+  public var screenRatio: (width: Swift.Double, height: Swift.Double) {
+    get
+  }
+  public static var allPods: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allPhones: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allPads: [IAnalyticsSDK.Device] {
+    get
+  }
+  @available(*, deprecated, renamed: "allDevicesWithSensorHousing")
+  public static var allXSeriesDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allPlusSizedDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allProDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allMiniDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allSimulatorPods: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allSimulatorPhones: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allSimulatorPads: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allSimulatorMiniDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  @available(*, deprecated, renamed: "allSimulatorDevicesWithSensorHousing")
+  public static var allSimulatorXSeriesDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allSimulatorPlusSizedDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allSimulatorProDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var isPod: Swift.Bool {
+    get
+  }
+  public var isPhone: Swift.Bool {
+    get
+  }
+  public var isPad: Swift.Bool {
+    get
+  }
+  public var realDevice: IAnalyticsSDK.Device {
+    get
+  }
+  public var isZoomed: Swift.Bool? {
+    get
+  }
+  public static var allTouchIDCapableDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allFaceIDCapableDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allBiometricAuthenticationCapableDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var isTouchIDCapable: Swift.Bool {
+    get
+  }
+  public var isFaceIDCapable: Swift.Bool {
+    get
+  }
+  public var hasBiometricSensor: Swift.Bool {
+    get
+  }
+  public static var allDevicesWithSensorHousing: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allSimulatorDevicesWithSensorHousing: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var hasSensorHousing: Swift.Bool {
+    get
+  }
+  public static var allDevicesWithRoundedDisplayCorners: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var hasRoundedDisplayCorners: Swift.Bool {
+    get
+  }
+  public static var allDevicesWithDynamicIsland: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var hasDynamicIsland: Swift.Bool {
+    get
+  }
+  public static var allDevicesWith3dTouchSupport: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var has3dTouchSupport: Swift.Bool {
+    get
+  }
+  public static var allDevicesWithWirelessChargingSupport: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var supportsWirelessCharging: Swift.Bool {
+    get
+  }
+  public static var allDevicesWith5gSupport: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var has5gSupport: Swift.Bool {
+    get
+  }
+  public static var allDevicesWithALidarSensor: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var hasLidarSensor: Swift.Bool {
+    get
+  }
+  public static var allDevicesWithUSBCConnectivity: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var hasUSBCConnectivity: Swift.Bool {
+    get
+  }
+  public var isCanvas: Swift.Bool? {
+    get
+  }
+  public static var allRealDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allSimulators: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var isSimulator: Swift.Bool {
+    get
+  }
+  public func isOneOf(_ devices: [IAnalyticsSDK.Device]) -> Swift.Bool
+  public var name: Swift.String? {
+    get
+  }
+  public var systemName: Swift.String? {
+    get
+  }
+  public var systemVersion: Swift.String? {
+    get
+  }
+  public var model: Swift.String? {
+    get
+  }
+  public var localizedModel: Swift.String? {
+    get
+  }
+  public var ppi: Swift.Int? {
+    get
+  }
+  public var isGuidedAccessSessionActive: Swift.Bool {
+    get
+  }
+  public var screenBrightness: Swift.Int {
+    get
+  }
+}
+extension IAnalyticsSDK.Device : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+  public var safeDescription: Swift.String {
+    get
+  }
+}
+extension IAnalyticsSDK.Device : Swift.Equatable {
+  public static func == (lhs: IAnalyticsSDK.Device, rhs: IAnalyticsSDK.Device) -> Swift.Bool
+}
+@available(iOS 8.0, watchOS 4.0, *)
+extension IAnalyticsSDK.Device {
+  public enum BatteryState : Swift.CustomStringConvertible, Swift.Equatable {
+    case full
+    case charging(Swift.Int)
+    case unplugged(Swift.Int)
+    public var lowPowerMode: Swift.Bool {
+      get
+    }
+    public var description: Swift.String {
+      get
+    }
+  }
+  public var batteryState: IAnalyticsSDK.Device.BatteryState? {
+    get
+  }
+  public var batteryLevel: Swift.Int? {
+    get
+  }
+}
+@available(iOS 8.0, watchOS 4.0, *)
+extension IAnalyticsSDK.Device.BatteryState : Swift.Comparable {
+  public static func == (lhs: IAnalyticsSDK.Device.BatteryState, rhs: IAnalyticsSDK.Device.BatteryState) -> Swift.Bool
+  public static func < (lhs: IAnalyticsSDK.Device.BatteryState, rhs: IAnalyticsSDK.Device.BatteryState) -> Swift.Bool
+}
+extension IAnalyticsSDK.Device {
+  public enum Orientation {
+    case landscape
+    case portrait
+    case unknown
+    public static func == (a: IAnalyticsSDK.Device.Orientation, b: IAnalyticsSDK.Device.Orientation) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var orientation: IAnalyticsSDK.Device.Orientation {
+    get
+  }
+}
+extension IAnalyticsSDK.Device {
+  public static var volumeTotalCapacity: Swift.Int? {
+    get
+  }
+  public static var volumeAvailableCapacity: Swift.Int? {
+    get
+  }
+  @available(iOS 11.0, *)
+  public static var volumeAvailableCapacityForImportantUsage: Swift.Int64? {
+    get
+  }
+  @available(iOS 11.0, *)
+  public static var volumeAvailableCapacityForOpportunisticUsage: Swift.Int64? {
+    get
+  }
+  @available(iOS 11.0, *)
+  public static var volumes: [Foundation.URLResourceKey : Swift.Int64]? {
+    get
+  }
+}
+extension IAnalyticsSDK.Device {
+  public struct ApplePencilSupport : Swift.OptionSet {
+    public var rawValue: Swift.UInt
+    public init(rawValue: Swift.UInt)
+    public static let firstGeneration: IAnalyticsSDK.Device.ApplePencilSupport
+    public static let secondGeneration: IAnalyticsSDK.Device.ApplePencilSupport
+    public static let firstGenerationUsbC: IAnalyticsSDK.Device.ApplePencilSupport
+    public static let pro: IAnalyticsSDK.Device.ApplePencilSupport
+    public typealias ArrayLiteralElement = IAnalyticsSDK.Device.ApplePencilSupport
+    public typealias Element = IAnalyticsSDK.Device.ApplePencilSupport
+    public typealias RawValue = Swift.UInt
+  }
+  public static var allApplePencilCapableDevices: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var applePencilSupport: IAnalyticsSDK.Device.ApplePencilSupport {
+    get
+  }
+}
+extension IAnalyticsSDK.Device {
+  public enum CameraType {
+    @available(*, deprecated, renamed: "wide")
+    case normal
+    case wide
+    case telephoto
+    case ultraWide
+    public static func == (a: IAnalyticsSDK.Device.CameraType, b: IAnalyticsSDK.Device.CameraType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var cameras: [IAnalyticsSDK.Device.CameraType] {
+    get
+  }
+  public static var allDevicesWithCamera: [IAnalyticsSDK.Device] {
+    get
+  }
+  @available(*, deprecated, renamed: "allDevicesWithWideCamera")
+  public static var allDevicesWithNormalCamera: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allDevicesWithWideCamera: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allDevicesWithTelephotoCamera: [IAnalyticsSDK.Device] {
+    get
+  }
+  public static var allDevicesWithUltraWideCamera: [IAnalyticsSDK.Device] {
+    get
+  }
+  public var hasCamera: Swift.Bool {
+    get
+  }
+  @available(*, deprecated, renamed: "hasWideCamera")
+  public var hasNormalCamera: Swift.Bool {
+    get
+  }
+  public var hasWideCamera: Swift.Bool {
+    get
+  }
+  public var hasTelephotoCamera: Swift.Bool {
+    get
+  }
+  public var hasUltraWideCamera: Swift.Bool {
+    get
+  }
+}
+@available(iOS 11.0, watchOS 4.0, macOS 10.10.3, tvOS 11.0, *)
+extension IAnalyticsSDK.Device {
+  public enum ThermalState {
+    case nominal
+    case fair
+    case serious
+    case critical
+    public static func == (a: IAnalyticsSDK.Device.ThermalState, b: IAnalyticsSDK.Device.ThermalState) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var thermalState: IAnalyticsSDK.Device.ThermalState? {
+    get
+  }
+}
+extension IAnalyticsSDK.Device {
+  public enum CPU : Swift.Comparable {
+    case a4
+    case a5
+    case a5X
+    case a6
+    case a6X
+    case a7
+    case a8
+    case a8X
+    case a9
+    case a9X
+    case a10Fusion
+    case a10XFusion
+    case a11Bionic
+    case a12Bionic
+    case a12XBionic
+    case a12ZBionic
+    case a13Bionic
+    case a14Bionic
+    case a15Bionic
+    case a16Bionic
+    case a17Pro
+    case a18
+    case a18Pro
+    case m1
+    case m2
+    case m3
+    case m4
+    case unknown
+    public static func < (a: IAnalyticsSDK.Device.CPU, b: IAnalyticsSDK.Device.CPU) -> Swift.Bool
+    public static func == (a: IAnalyticsSDK.Device.CPU, b: IAnalyticsSDK.Device.CPU) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public var cpu: IAnalyticsSDK.Device.CPU {
+    get
+  }
+}
+extension IAnalyticsSDK.Device.CPU : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+public enum NetworkType : Swift.String {
+  case none
+  case wifi
+  case cellular
+  case ethernet
+  case unknown
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum Environment : Swift.String, Swift.CaseIterable {
+  case development
+  case testing
+  case staging
+  case production
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [IAnalyticsSDK.Environment]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [IAnalyticsSDK.Environment] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class EnvironmentConfig {
+  public static let shared: IAnalyticsSDK.EnvironmentConfig
+  public func setEnvironment(_ environment: IAnalyticsSDK.Environment)
+  public func getConfig() -> IAnalyticsSDK.EnvironmentConfiguration
+  public func getAllEnvironments() -> [IAnalyticsSDK.Environment]
+  public func registerEnvironmentChangeCallback(_ callback: @escaping (IAnalyticsSDK.Environment) -> Swift.Void)
+  public func isDevelopmentEnvironment() -> Swift.Bool
+  public func isProductionEnvironment() -> Swift.Bool
+  @objc deinit
+}
+public struct EnvironmentConfiguration {
+  public let environment: IAnalyticsSDK.Environment
+  public let apiBaseUrl: Swift.String
+  public let description: Swift.String
+  public let uploadInterval: Foundation.TimeInterval
+  public let maxRetry: Swift.Int
+  public let batchSize: Swift.Int
+  public let debugLoggingEnabled: Swift.Bool
+  public let networkTimeout: Foundation.TimeInterval
+  public let dbCleanupInterval: Foundation.TimeInterval
+}
+@objc @_inheritsConvenienceInitializers open class HardwareHardware : ObjectiveC.NSObject {
+  public static var uptime: Foundation.Date {
+    get
+  }
+  public static let deviceModel: Swift.String
+  public static var deviceName: Swift.String
+  public static let systemName: Swift.String
+  public static let systemVersion: Swift.String
+  public static var deviceVersionCode: Swift.String {
+    get
+  }
+  public static var deviceVersion: Swift.String {
+    get
+  }
+  public static var screenWidth: CoreFoundation.CGFloat {
+    get
+  }
+  public static var screenHeight: CoreFoundation.CGFloat {
+    get
+  }
+  public static var screenBrightness: CoreFoundation.CGFloat {
+    get
+  }
+  public static var isMultitaskingSupported: Swift.Bool {
+    get
+  }
+  public static var isDebuggerAttached: Swift.Bool {
+    get
+  }
+  public static var isPluggedIn: Swift.Bool {
+    get
+  }
+  public static var isJailbroken: Swift.Bool {
+    get
+  }
+  @objc override dynamic public init()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class NetworkService {
+  public static func get(request: IAnalyticsSDK.NetworkRequest, completion: @escaping (IAnalyticsSDK.NetworkResponse) -> Swift.Void)
+  public static func post(request: IAnalyticsSDK.NetworkRequest, completion: @escaping (IAnalyticsSDK.NetworkResponse) -> Swift.Void)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DebugMode {
+  public static let shared: IAnalyticsSDK.DebugMode
+  public func enable(verbose: Swift.Bool = false)
+  public func disable()
+  public func setNetworkDelay(_ delay: Foundation.TimeInterval)
+  public func log(_ message: Swift.String, type: IAnalyticsSDK.LogType = .info)
+  @objc deinit
+}
+public enum LogType {
+  case info
+  case warning
+  case error
+  case debug
+  public static func == (a: IAnalyticsSDK.LogType, b: IAnalyticsSDK.LogType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct NetworkResponse {
+  public let data: Foundation.Data?
+  public let headers: [Swift.AnyHashable : Any]?
+  public let statusCode: Swift.Int?
+  public let error: IAnalyticsSDK.NetworkError?
+  public init(data: Foundation.Data?, headers: [Swift.AnyHashable : Any]?, statusCode: Swift.Int?, error: IAnalyticsSDK.NetworkError? = nil)
+}
+@_hasMissingDesignatedInitializers public class APIConfig {
+  public static let shared: IAnalyticsSDK.APIConfig
+  public func setBaseUrl(_ url: Swift.String)
+  public func setAPIVersion(_ version: Swift.String)
+  public func setTimeout(_ timeout: Foundation.TimeInterval)
+  public func setReadTimeout(_ timeout: Foundation.TimeInterval)
+  public func setConnectTimeout(_ timeout: Foundation.TimeInterval)
+  public func setMaxConcurrentRequests(_ count: Swift.Int)
+  public func addCustomHeader(_ key: Swift.String, value: Swift.String)
+  public func addCustomHeaders(_ headers: [Swift.String : Swift.String])
+  public func removeCustomHeader(_ key: Swift.String)
+  public func getAllHeaders() -> [Swift.String : Swift.String]
+  public func setRetryConfig(maxCount: Swift.Int, interval: Foundation.TimeInterval, backoffMultiplier: Swift.Double = 2.0)
+  public func setRetryableStatusCodes(_ codes: Swift.Set<Swift.Int>)
+  public func setCacheConfig(enabled: Swift.Bool, sizeInMB: Swift.Int, expirationInSeconds: Foundation.TimeInterval)
+  public func setCompressionConfig(requestEnabled: Swift.Bool, responseEnabled: Swift.Bool, threshold: Swift.Int)
+  public func setSSLVerification(_ enabled: Swift.Bool)
+  public func addCustomCertificate(_ certificate: Foundation.Data)
+  public func enableCertificatePinning(_ enabled: Swift.Bool)
+  public func setLoggingConfig(requestEnabled: Swift.Bool, responseEnabled: Swift.Bool, level: IAnalyticsSDK.APILogLevel)
+  public func setProxyConfig(_ config: IAnalyticsSDK.ProxyConfig?)
+  public func addRequestInterceptor(_ interceptor: any IAnalyticsSDK.RequestInterceptor)
+  public func addResponseInterceptor(_ interceptor: any IAnalyticsSDK.ResponseInterceptor)
+  public func getRequestInterceptors() -> [any IAnalyticsSDK.RequestInterceptor]
+  public func getResponseInterceptors() -> [any IAnalyticsSDK.ResponseInterceptor]
+  public func setApiKey(_ apiKey: Swift.String)
+  public func setClientId(_ clientId: Swift.String)
+  public func setAESSecret(_ aesSecret: Swift.String)
+  @objc deinit
+}
+public enum APILogLevel : Swift.Int {
+  case none
+  case basic
+  case headers
+  case body
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct ProxyConfig {
+  public init(host: Swift.String, port: Swift.Int, username: Swift.String? = nil, password: Swift.String? = nil)
+}
+public protocol RequestInterceptor {
+  func intercept(request: inout Foundation.URLRequest) throws
+}
+public protocol ResponseInterceptor {
+  func intercept(response: Foundation.URLResponse?, data: Foundation.Data?, error: (any Swift.Error)?) -> (Foundation.URLResponse?, Foundation.Data?, (any Swift.Error)?)
+}
+public struct NetworkRequest {
+  public let url: Foundation.URL
+  public let method: Swift.String
+  public let headers: [Swift.String : Swift.String]?
+  public let body: Foundation.Data?
+  public init(url: Foundation.URL, method: Swift.String = "GET", headers: [Swift.String : Swift.String]? = nil, body: Foundation.Data? = nil)
+}
+extension IAnalyticsSDK.ParameterSource : Swift.Equatable {}
+extension IAnalyticsSDK.ParameterSource : Swift.Hashable {}
+extension IAnalyticsSDK.ParameterSource : Swift.RawRepresentable {}
+extension IAnalyticsSDK.ClipboardPermissionStatus : Swift.Equatable {}
+extension IAnalyticsSDK.ClipboardPermissionStatus : Swift.Hashable {}
+extension IAnalyticsSDK.ClipboardPermissionStatus : Swift.RawRepresentable {}
+extension IAnalyticsSDK.EventType : Swift.Equatable {}
+extension IAnalyticsSDK.EventType : Swift.Hashable {}
+extension IAnalyticsSDK.EventType : Swift.RawRepresentable {}
+extension IAnalyticsSDK.EventStatus : Swift.Equatable {}
+extension IAnalyticsSDK.EventStatus : Swift.Hashable {}
+extension IAnalyticsSDK.EventStatus : Swift.RawRepresentable {}
+extension IAnalyticsSDK.EventPriority : Swift.Equatable {}
+extension IAnalyticsSDK.EventPriority : Swift.Hashable {}
+extension IAnalyticsSDK.EventPriority : Swift.RawRepresentable {}
+extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.Equatable {}
+extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.Hashable {}
+extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.RawRepresentable {}
+extension IAnalyticsSDK.Device.Orientation : Swift.Equatable {}
+extension IAnalyticsSDK.Device.Orientation : Swift.Hashable {}
+extension IAnalyticsSDK.Device.CameraType : Swift.Equatable {}
+extension IAnalyticsSDK.Device.CameraType : Swift.Hashable {}
+@available(iOS 11.0, watchOS 4.0, macOS 10.10.3, tvOS 11.0, *)
+extension IAnalyticsSDK.Device.ThermalState : Swift.Equatable {}
+@available(iOS 11.0, watchOS 4.0, macOS 10.10.3, tvOS 11.0, *)
+extension IAnalyticsSDK.Device.ThermalState : Swift.Hashable {}
+extension IAnalyticsSDK.Device.CPU : Swift.Hashable {}
+extension IAnalyticsSDK.NetworkType : Swift.Equatable {}
+extension IAnalyticsSDK.NetworkType : Swift.Hashable {}
+extension IAnalyticsSDK.NetworkType : Swift.RawRepresentable {}
+extension IAnalyticsSDK.Environment : Swift.Equatable {}
+extension IAnalyticsSDK.Environment : Swift.Hashable {}
+extension IAnalyticsSDK.Environment : Swift.RawRepresentable {}
+extension IAnalyticsSDK.LogType : Swift.Equatable {}
+extension IAnalyticsSDK.LogType : Swift.Hashable {}
+extension IAnalyticsSDK.APILogLevel : Swift.Equatable {}
+extension IAnalyticsSDK.APILogLevel : Swift.Hashable {}
+extension IAnalyticsSDK.APILogLevel : Swift.RawRepresentable {}

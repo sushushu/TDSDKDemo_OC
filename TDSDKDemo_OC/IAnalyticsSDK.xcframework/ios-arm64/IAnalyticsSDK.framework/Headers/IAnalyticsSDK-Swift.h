@@ -307,8 +307,8 @@ typedef unsigned int swift_uint4  __attribute__((__ext_vector_type__(4)));
 #if defined(__OBJC__)
 
 @class NSString;
-@class NSDate;
 @class NSURL;
+enum ParameterSource : NSInteger;
 /// AnalyticsSDK 主类
 /// 用于初始化和管理 SDK 的核心功能
 /// @since 1.0.0
@@ -323,6 +323,10 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AnalyticsSDK
 /// 私有初始化方法
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
 + (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
+/// 禁止拷贝，始终返回单例自身
+- (id _Nonnull)copy SWIFT_WARN_UNUSED_RESULT;
+/// 禁止mutableCopy，始终返回单例自身
+- (id _Nonnull)mutableCopy SWIFT_WARN_UNUSED_RESULT;
 /// 初始化 SDK
 /// @param apiKey API密钥，必填，用于服务端验证
 /// @param clientId 客户端ID，必填，客户端唯一标识
@@ -334,48 +338,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AnalyticsSDK
 /// @param initialUploadThreshold 初始上传阈值，可选，默认为20
 /// @param initialUploadInterval 初始上传间隔(毫秒)，可选，默认为60000
 - (void)initializeWithApiKey:(NSString * _Nonnull)apiKey clientId:(NSString * _Nonnull)clientId aesSecret:(NSString * _Nonnull)aesSecret apiUrl:(NSString * _Nonnull)apiUrl debugMode:(BOOL)debugMode environment:(NSString * _Nonnull)environment enableAdaptiveThrottling:(BOOL)enableAdaptiveThrottling initialUploadThreshold:(NSInteger)initialUploadThreshold initialUploadInterval:(int64_t)initialUploadInterval;
-/// SDK首次初始化事件埋点（仅第一次启动时调用）
-- (void)trackFirstLaunchEvent;
-/// 获取首次安装时间
-/// @return Date? 首次安装时间
-- (NSDate * _Nullable)getFirstInstallTime SWIFT_WARN_UNUSED_RESULT;
-/// 重置首次安装状态（用于测试）
-- (void)resetFirstInstallStatus;
-/// 获取剪贴板权限状态
-/// @return Bool 是否已授权
-- (BOOL)getClipboardPermissionStatus SWIFT_WARN_UNUSED_RESULT;
-/// 获取剪贴板参数
-/// @return [String: Any] 剪贴板参数字典
-- (NSDictionary<NSString *, id> * _Nonnull)getClipboardParams SWIFT_WARN_UNUSED_RESULT;
-/// 清除剪贴板参数
-- (void)clearClipboardParams;
-/// 获取设备信息
-/// @return Dictionary<String, Any> 包含设备信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getDeviceInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取应用信息
-/// @return Dictionary<String, Any> 包含应用信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getAppInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取网络状态
-/// @return String 网络状态描述
-- (NSString * _Nonnull)getNetworkStatus SWIFT_WARN_UNUSED_RESULT;
-/// 获取 CPU 信息
-/// @return Dictionary<String, Any> 包含 CPU 信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getCPUInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取内存信息
-/// @return Dictionary<String, Any> 包含内存信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getMemoryInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取屏幕信息
-/// @return Dictionary<String, Any> 包含屏幕信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getScreenInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取时区信息
-/// @return Dictionary<String, Any> 包含时区信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getTimezoneInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取语言信息
-/// @return Dictionary<String, Any> 包含语言信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getLanguageInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取设备 UA 信息
-/// @param completion 完成回调，返回 UA 字符串
-- (void)getUserAgentWithCompletion:(void (^ _Nonnull)(NSString * _Nonnull))completion;
 /// 设置用户ID
 /// @param userId 用户唯一标识
 - (void)setUserId:(NSString * _Nonnull)userId;
@@ -399,14 +361,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AnalyticsSDK
 /// 清除指定用户属性
 /// @param key 属性键
 - (void)clearUserProperty:(NSString * _Nonnull)key;
-/// 跟踪事件（eventContent 内不再包含 deviceInfo、otherInfo、screenInfo、osInfo）
-/// @param eventName 事件名称
-/// @param params 事件参数
-- (void)trackEvent:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
-/// 跟踪页面访问
-/// @param pageName 页面名称
-/// @param params 页面参数
-- (void)trackPage:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
 /// 获取事件队列
 /// @return [[String: Any]] 事件队列
 - (NSArray<NSDictionary<NSString *, id> *> * _Nonnull)getEventQueue SWIFT_WARN_UNUSED_RESULT;
@@ -415,12 +369,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AnalyticsSDK
 /// 获取事件队列大小
 /// @return Int 事件队列大小
 - (NSInteger)getEventQueueSize SWIFT_WARN_UNUSED_RESULT;
-/// 设置API URL
-/// @param url API地址
-- (void)setApiUrl:(NSString * _Nonnull)url;
-/// 获取当前API URL
-/// @return String API地址
-- (NSString * _Nonnull)getApiUrl SWIFT_WARN_UNUSED_RESULT;
 /// 设置事件上传阈值
 /// @param threshold 阈值数量
 - (void)setEventUploadThreshold:(NSInteger)threshold;
@@ -442,12 +390,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AnalyticsSDK
 /// 清理本地数据
 /// @return Int 清理的记录数
 - (NSInteger)cleanupLocalData SWIFT_WARN_UNUSED_RESULT;
-/// 手动触发事件上传
-- (void)uploadEvents;
-/// 禁止拷贝，始终返回单例自身
-- (id _Nonnull)copy SWIFT_WARN_UNUSED_RESULT;
-/// 禁止mutableCopy，始终返回单例自身
-- (id _Nonnull)mutableCopy SWIFT_WARN_UNUSED_RESULT;
 /// 注册深度链接回调（OC 兼容）
 /// @param handler Objective-C block，参数为 NSURL 和 NSDictionary
 - (void)registerDeepLinkHandlerObjC:(void (^ _Nonnull)(NSURL * _Nonnull, NSDictionary * _Nonnull))handler;
@@ -455,23 +397,23 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AnalyticsSDK
 /// @param url 被打开的URL
 /// @param options 启动参数
 - (void)handleOpenURL:(NSURL * _Nonnull)url options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> * _Nonnull)options;
-/// 解析 URL 查询参数
-/// @param url 需要解析的 URL
-/// @return [String: String] 参数字典
-+ (NSDictionary<NSString *, NSString *> * _Nonnull)parseURLParams:(NSURL * _Nonnull)url SWIFT_WARN_UNUSED_RESULT;
-/// 埋点用户注册事件
-/// @param utmParams UTM参数（可选）
-- (void)trackRegisterEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
-/// 埋点用户充值事件
-/// @param amount 充值金额
-/// @param utmParams UTM参数（可选）
-- (void)trackRechargeEventWithAmount:(double)amount utmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// 处理延迟深度链接
+/// @param url 延迟深度链接URL
+/// @param params 解析后的参数
+- (void)handleDelayDeepLink:(NSURL * _Nonnull)url params:(NSDictionary<NSString *, id> * _Nonnull)params;
+/// 处理剪贴板参数获取
+/// @param clipboardContent 剪贴板内容
+/// @return void
+- (void)handleClipboardParams:(NSString * _Nonnull)clipboardContent;
 /// 设置 User-Agent
 /// @param ua 用户自定义 UA 字符串
 - (void)setUserAgent:(NSString * _Nonnull)ua;
 /// 设置 UTM 参数
 /// @param utm 用户自定义 UTM 字典
 - (void)setUtmParams:(NSDictionary<NSString *, id> * _Nonnull)utm;
+/// 清除 UTM 参数
+/// 同时清除内存和 UserDefaults 中的数据
+- (void)clearUtmParams;
 /// 设置设备属性
 /// @param key 属性键
 /// @param value 属性值
@@ -485,71 +427,154 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) AnalyticsSDK
 - (NSString * _Nonnull)getUserAgentString SWIFT_WARN_UNUSED_RESULT;
 /// 获取当前 UTM 参数
 - (NSDictionary<NSString *, id> * _Nonnull)getUtmParams SWIFT_WARN_UNUSED_RESULT;
+/// 强制获取剪贴板内容（不怕弹窗，若权限被拒绝则返回空字符串）
+/// @return String 剪贴板内容，权限被拒绝或无内容时返回空字符串
+/// @since 1.0.0
+- (NSString * _Nonnull)getClipboardStringForce SWIFT_WARN_UNUSED_RESULT;
+/// 设置参数获取方式
+/// @param source 参数获取方式枚举值
+/// @since 1.0.0
+- (void)setParameterSource:(enum ParameterSource)source;
+/// 获取当前参数获取方式
+/// @return ParameterSource 当前参数获取方式
+/// @since 1.0.0
+- (enum ParameterSource)getParameterSource SWIFT_WARN_UNUSED_RESULT;
+/// 获取当前参数获取方式字符串
+/// @return String 当前参数获取方式字符串
+/// @since 1.0.0
+- (NSString * _Nonnull)getParameterSourceString SWIFT_WARN_UNUSED_RESULT;
+/// 通过字符串设置参数获取方式
+/// @param sourceString 参数获取方式字符串
+/// @since 1.0.0
+- (void)setParameterSourceWithString:(NSString * _Nonnull)sourceString;
+/// OC 友好的参数获取方式常量
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ParameterSourceDeepLink;)
++ (NSString * _Nonnull)ParameterSourceDeepLink SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ParameterSourceDelayDeepLink;)
++ (NSString * _Nonnull)ParameterSourceDelayDeepLink SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ParameterSourceClipboard;)
++ (NSString * _Nonnull)ParameterSourceClipboard SWIFT_WARN_UNUSED_RESULT;
+SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _Nonnull ParameterSourceUnknown;)
++ (NSString * _Nonnull)ParameterSourceUnknown SWIFT_WARN_UNUSED_RESULT;
+/// @param sourceString 参数获取方式字符串常量
+/// @since 1.0.0
+- (void)setParameterSourceWithConstant:(NSString * _Nonnull)sourceString;
+@end
+
+@interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
 /// OC友好方法：上报自定义事件
 - (void)trackEventWithEventName:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
 /// OC友好方法：上报页面访问
 - (void)trackPageWithPageName:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
+/// 埋点用户注册事件
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
+/// @return void
+- (void)trackRegisterEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// 埋点应用唤醒事件
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
+/// @return void
+- (void)trackAppWakeupEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// 埋点用户充值事件
+/// @param amount 充值金额
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent，需包含order_id）
+/// @return void
+- (void)trackRechargeEventWithAmount:(double)amount utmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// SDK首次初始化事件埋点（仅第一次启动时调用）
+/// @return void
+- (void)trackFirstLaunchEvent;
+/// 跟踪页面访问
+/// @param pageName 页面名称
+/// @param params 页面参数
+- (void)trackPage:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
+/// 跟踪事件（eventContent 内不再包含 deviceInfo、otherInfo、screenInfo、osInfo）
+/// @param eventName 事件名称
+/// @param params 事件参数（可选，支持外部传入happen_time和utm_params）
+/// @return void
+- (void)trackEvent:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
 @end
 
+@class NSDate;
 @interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
-/// OC/Swift通用：设置API版本
-- (void)setApiVersion:(NSString * _Nonnull)version;
-/// OC/Swift通用：获取当前API Base URL
-- (NSString * _Nonnull)getApiBaseUrl SWIFT_WARN_UNUSED_RESULT;
+/// 获取网络状态
+/// @return String 网络状态描述
+- (NSString * _Nonnull)getNetworkStatus SWIFT_WARN_UNUSED_RESULT;
+/// 获取设备 UA 信息
+/// @param completion 完成回调，返回 UA 字符串
+- (void)getUserAgentWithCompletion:(void (^ _Nonnull)(NSString * _Nonnull))completion;
+/// 获取首次安装时间
+/// @return Date? 首次安装时间
+- (NSDate * _Nullable)getFirstInstallTime SWIFT_WARN_UNUSED_RESULT;
+/// 判断是否为第一次启动
+/// @return Bool true表示第一次启动，false表示非第一次启动
+/// @since 1.0.0
+- (BOOL)isFirstLaunch SWIFT_WARN_UNUSED_RESULT;
+/// 获取剪贴板参数
+/// @return [String: Any] 剪贴板参数字典
+- (NSString * _Nonnull)getClipboardParams SWIFT_WARN_UNUSED_RESULT;
+/// 清除剪贴板参数
+/// 该方法会清除：
+/// <ol>
+///   <li>
+///     内存中的剪贴板参数
+///   </li>
+///   <li>
+///     系统剪贴板内容
+///   </li>
+///   <li>
+///     重置剪贴板监控状态
+///   </li>
+/// </ol>
+- (void)clearClipboardParams;
 @end
 
-@interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
-/// OC/Swift通用：通过字符串设置环境
-/// @param envString 环境字符串（如 “DEVELOPMENT”、“PRODUCTION”）
-- (void)setEnvironmentWithString:(NSString * _Nonnull)envString;
-/// OC/Swift通用：获取当前环境字符串
-/// @return 当前环境字符串
-- (NSString * _Nonnull)getEnvironmentString SWIFT_WARN_UNUSED_RESULT;
-@end
+/// 剪贴板权限状态
+typedef SWIFT_ENUM(NSInteger, ClipboardPermissionStatus, open) {
+  ClipboardPermissionStatusUnknown = 0,
+  ClipboardPermissionStatusAllowed = 1,
+  ClipboardPermissionStatusDenied = 2,
+  ClipboardPermissionStatusUndetermined = 3,
+};
 
 /// CPU Class
-SWIFT_CLASS("_TtC13IAnalyticsSDK3CPU")
-@interface CPU : NSObject
+SWIFT_CLASS("_TtC13IAnalyticsSDK9DeviceCPU")
+@interface DeviceCPU : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-SWIFT_CLASS("_TtC13IAnalyticsSDK3FPS")
-@interface FPS : NSObject
+SWIFT_CLASS("_TtC13IAnalyticsSDK9DeviceFPS")
+@interface DeviceFPS : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+SWIFT_CLASS("_TtC13IAnalyticsSDK12DeviceMemory")
+@interface DeviceMemory : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+SWIFT_CLASS("_TtC13IAnalyticsSDK12DeviceSystem")
+@interface DeviceSystem : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
 SWIFT_PROTOCOL("_TtP13IAnalyticsSDK11FPSDelegate_")
 @protocol FPSDelegate
 @optional
-- (void)fpsWithFps:(FPS * _Nonnull)fps currentFPS:(double)currentFPS;
+- (void)fpsWithFps:(DeviceFPS * _Nonnull)fps currentFPS:(double)currentFPS;
 @end
 
-SWIFT_CLASS("_TtC13IAnalyticsSDK8Hardware")
-@interface Hardware : NSObject
+SWIFT_CLASS("_TtC13IAnalyticsSDK16HardwareHardware")
+@interface HardwareHardware : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
 
-SWIFT_CLASS("_TtC13IAnalyticsSDK6Memory")
-@interface Memory : NSObject
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-@class NetworkFlow;
-SWIFT_PROTOCOL("_TtP13IAnalyticsSDK11NetDelegate_")
-@protocol NetDelegate
-@optional
-- (void)networkFlowWithNetworkFlow:(NetworkFlow * _Nonnull)networkFlow catchWithWifiSend:(uint32_t)wifiSend wifiReceived:(uint32_t)wifiReceived wwanSend:(uint32_t)wwanSend wwanReceived:(uint32_t)wwanReceived;
-@end
-
-SWIFT_CLASS("_TtC13IAnalyticsSDK11NetworkFlow")
-@interface NetworkFlow : NSObject
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-SWIFT_CLASS("_TtC13IAnalyticsSDK6System")
-@interface System : NSObject
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
+/// 参数获取方式枚举
+/// @since 1.0.0
+typedef SWIFT_ENUM(NSInteger, ParameterSource, open) {
+  ParameterSourceDeepLink = 0,
+  ParameterSourceDelayDeepLink = 1,
+  ParameterSourceClipboard = 2,
+  ParameterSourceUnknown = 3,
+};
 
 /// 钥匙串UDID管理器
 /// 用于在钥匙串中安全地存储和获取设备UDID
@@ -586,51 +611,6 @@ typedef SWIFT_ENUM(NSInteger, KeychainError, open) {
   KeychainErrorPermissionDenied = 4,
 };
 static NSString * _Nonnull const KeychainErrorDomain = @"IAnalyticsSDK.TDKeychainUDIDManager.KeychainError";
-
-SWIFT_CLASS("_TtC13IAnalyticsSDK9TDNetwork")
-@interface TDNetwork : NSObject
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
-@end
-
-/// Tecdo设备信息管理类
-/// 用于获取iOS设备的各种信息，如UA、网络状态、系统内存等
-/// @since 1.0.0
-SWIFT_CLASS("_TtC13IAnalyticsSDK15TecdoDeviceInfo")
-@interface TecdoDeviceInfo : NSObject
-/// 单例实例
-SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, strong) TecdoDeviceInfo * _Nonnull shared;)
-+ (TecdoDeviceInfo * _Nonnull)shared SWIFT_WARN_UNUSED_RESULT;
-/// 私有初始化方法
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_UNAVAILABLE_MSG("-init is unavailable");
-/// 检查是否已获得跟踪权限
-/// @return Bool 是否已获得权限
-- (BOOL)isTrackingAuthorized SWIFT_WARN_UNUSED_RESULT;
-/// 获取设备UDID
-/// @return String UDID字符串
-- (NSString * _Nonnull)getUDID SWIFT_WARN_UNUSED_RESULT;
-/// 获取设备UA信息
-/// @param completion 完成回调，返回UA字符串
-- (void)getUserAgentWithCompletion:(void (^ _Nonnull)(NSString * _Nonnull))completion;
-/// 清除UA缓存
-- (void)clearUserAgentCache;
-/// 获取设备网络状态
-/// @return String 网络状态描述
-- (NSString * _Nonnull)getNetworkStatus SWIFT_WARN_UNUSED_RESULT;
-/// 获取设备语言信息
-/// @return Dictionary<String, Any> 包含语言信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getLanguageInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取CPU使用率信息
-/// @return Dictionary<String, Any> 包含CPU使用率信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getCPUInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取时区信息
-/// @return Dictionary<String, Any> 包含时区信息的字典
-- (NSDictionary<NSString *, id> * _Nonnull)getTimezoneInfo SWIFT_WARN_UNUSED_RESULT;
-/// 获取IDFV
-- (NSString * _Nonnull)getIDFV SWIFT_WARN_UNUSED_RESULT;
-/// 获取IDFA（不会主动弹窗）
-- (NSString * _Nonnull)getIDFA SWIFT_WARN_UNUSED_RESULT;
-@end
 
 #endif
 #if __has_attribute(external_source_symbol)

@@ -461,38 +461,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (void)setParameterSourceWithConstant:(NSString * _Nonnull)sourceString;
 @end
 
-@interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
-/// OC友好方法：上报自定义事件
-- (void)trackEventWithEventName:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
-/// OC友好方法：上报页面访问
-- (void)trackPageWithPageName:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
-/// 埋点用户注册事件
-/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
-/// @return void
-- (void)trackRegisterEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
-/// 埋点应用唤醒事件
-/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
-/// @return void
-- (void)trackAppWakeupEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
-/// 埋点用户充值事件
-/// @param amount 充值金额
-/// @param utmParams UTM参数（可选，建议直接传给trackEvent，需包含order_id）
-/// @return void
-- (void)trackRechargeEventWithAmount:(double)amount utmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
-/// SDK首次初始化事件埋点（仅第一次启动时调用）
-/// @return void
-- (void)trackFirstLaunchEvent;
-/// 跟踪页面访问
-/// @param pageName 页面名称
-/// @param params 页面参数
-- (void)trackPage:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
-/// 跟踪事件（eventContent 内不再包含 deviceInfo、otherInfo、screenInfo、osInfo）
-/// @param eventName 事件名称
-/// @param params 事件参数（可选，支持外部传入happen_time和utm_params）
-/// @return void
-- (void)trackEvent:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
-@end
-
 @class NSDate;
 @interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
 /// 获取网络状态
@@ -525,6 +493,41 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 ///   </li>
 /// </ol>
 - (void)clearClipboardParams;
+@end
+
+@interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
+/// OC友好方法：上报自定义事件
+- (void)trackEventWithEventName:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
+/// OC友好方法：上报页面访问
+- (void)trackPageWithPageName:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
+/// 埋点用户注册事件
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
+/// @return void
+- (void)trackRegisterEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// 埋点应用唤醒事件
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
+/// @return void
+- (void)trackAppWakeupEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// 埋点用户充值事件
+/// @param amount 充值金额
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent，需包含order_id）
+/// @return void
+- (void)trackRechargeEventWithAmount:(double)amount utmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// SDK首次初始化事件埋点（仅第一次启动时调用）
+/// @return void
+- (void)trackFirstLaunchEvent;
+/// SDK首次初始化事件埋点（仅第一次启动时调用）
+/// @return void
+- (void)trackSDKLaunchEvent;
+/// 跟踪页面访问
+/// @param pageName 页面名称
+/// @param params 页面参数
+- (void)trackPage:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
+/// 跟踪事件（eventContent 内不再包含 deviceInfo、otherInfo、screenInfo、osInfo）
+/// @param eventName 事件名称
+/// @param params 事件参数（可选，支持外部传入happen_time和utm_params）
+/// @return void
+- (void)trackEvent:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
 @end
 
 /// 剪贴板权限状态
@@ -1083,38 +1086,6 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 - (void)setParameterSourceWithConstant:(NSString * _Nonnull)sourceString;
 @end
 
-@interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
-/// OC友好方法：上报自定义事件
-- (void)trackEventWithEventName:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
-/// OC友好方法：上报页面访问
-- (void)trackPageWithPageName:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
-/// 埋点用户注册事件
-/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
-/// @return void
-- (void)trackRegisterEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
-/// 埋点应用唤醒事件
-/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
-/// @return void
-- (void)trackAppWakeupEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
-/// 埋点用户充值事件
-/// @param amount 充值金额
-/// @param utmParams UTM参数（可选，建议直接传给trackEvent，需包含order_id）
-/// @return void
-- (void)trackRechargeEventWithAmount:(double)amount utmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
-/// SDK首次初始化事件埋点（仅第一次启动时调用）
-/// @return void
-- (void)trackFirstLaunchEvent;
-/// 跟踪页面访问
-/// @param pageName 页面名称
-/// @param params 页面参数
-- (void)trackPage:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
-/// 跟踪事件（eventContent 内不再包含 deviceInfo、otherInfo、screenInfo、osInfo）
-/// @param eventName 事件名称
-/// @param params 事件参数（可选，支持外部传入happen_time和utm_params）
-/// @return void
-- (void)trackEvent:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
-@end
-
 @class NSDate;
 @interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
 /// 获取网络状态
@@ -1147,6 +1118,41 @@ SWIFT_CLASS_PROPERTY(@property (nonatomic, class, readonly, copy) NSString * _No
 ///   </li>
 /// </ol>
 - (void)clearClipboardParams;
+@end
+
+@interface AnalyticsSDK (SWIFT_EXTENSION(IAnalyticsSDK))
+/// OC友好方法：上报自定义事件
+- (void)trackEventWithEventName:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
+/// OC友好方法：上报页面访问
+- (void)trackPageWithPageName:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
+/// 埋点用户注册事件
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
+/// @return void
+- (void)trackRegisterEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// 埋点应用唤醒事件
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent）
+/// @return void
+- (void)trackAppWakeupEventWithUtmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// 埋点用户充值事件
+/// @param amount 充值金额
+/// @param utmParams UTM参数（可选，建议直接传给trackEvent，需包含order_id）
+/// @return void
+- (void)trackRechargeEventWithAmount:(double)amount utmParams:(NSDictionary<NSString *, id> * _Nullable)utmParams;
+/// SDK首次初始化事件埋点（仅第一次启动时调用）
+/// @return void
+- (void)trackFirstLaunchEvent;
+/// SDK首次初始化事件埋点（仅第一次启动时调用）
+/// @return void
+- (void)trackSDKLaunchEvent;
+/// 跟踪页面访问
+/// @param pageName 页面名称
+/// @param params 页面参数
+- (void)trackPage:(NSString * _Nonnull)pageName params:(NSDictionary<NSString *, id> * _Nullable)params;
+/// 跟踪事件（eventContent 内不再包含 deviceInfo、otherInfo、screenInfo、osInfo）
+/// @param eventName 事件名称
+/// @param params 事件参数（可选，支持外部传入happen_time和utm_params）
+/// @return void
+- (void)trackEvent:(NSString * _Nonnull)eventName params:(NSDictionary<NSString *, id> * _Nullable)params;
 @end
 
 /// 剪贴板权限状态

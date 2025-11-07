@@ -6,7 +6,6 @@ import AdSupport
 import AppTrackingTransparency
 import SystemConfiguration.CaptiveNetwork
 import CommonCrypto
-import CoreTelephony
 import CryptoKit
 import Foundation
 import Network
@@ -19,152 +18,11 @@ import WebKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
-@_hasMissingDesignatedInitializers public class AESEncryptionUtil {
-  public static func decrypt(encryptedBase64: Swift.String, clientSecret: Swift.String, salt: Swift.String) throws -> Swift.String
-  public static func encrypt(plainText: Swift.String, clientSecret: Swift.String, salt: Swift.String) throws -> Swift.String
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class AutoEventTracker {
-  public static let shared: IAnalyticsSDK.AutoEventTracker
-  public func enable()
-  public func disable()
-  public func trackViewController(_ viewController: UIKit.UIViewController)
-  public func handlePageView(_ viewController: UIKit.UIViewController)
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class NetworkService {
-  public static func get(request: IAnalyticsSDK.NetworkRequest, completion: @escaping (IAnalyticsSDK.NetworkResponse) -> Swift.Void)
-  public static func post(request: IAnalyticsSDK.NetworkRequest, completion: @escaping (IAnalyticsSDK.NetworkResponse) -> Swift.Void)
-  @objc deinit
-}
-@objc public protocol NetDelegate {
-  @objc optional func networkFlow(networkFlow: IAnalyticsSDK.NetworkFlow, catchWithWifiSend wifiSend: Swift.UInt32, wifiReceived: Swift.UInt32, wwanSend: Swift.UInt32, wwanReceived: Swift.UInt32)
-}
-@objc @_inheritsConvenienceInitializers open class NetworkFlow : ObjectiveC.NSObject {
-  weak open var delegate: (any IAnalyticsSDK.NetDelegate)?
-  open func open(with timeInterval: Foundation.TimeInterval = 1)
-  open func close()
+@objc @_inheritsConvenienceInitializers open class DeviceMemory : ObjectiveC.NSObject {
+  open class func applicationUsage() -> (used: Swift.Double, total: Swift.Double)
+  open class func systemUsage() -> (free: Swift.Double, active: Swift.Double, inactive: Swift.Double, wired: Swift.Double, compressed: Swift.Double, total: Swift.Double)
   @objc override dynamic public init()
   @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DatabaseManager {
-  public static func save(key: Swift.String, value: Any)
-  public static func saveCodable<T>(key: Swift.String, object: T) where T : Swift.Decodable, T : Swift.Encodable
-  public static func saveInt(key: Swift.String, value: Swift.Int)
-  public static func saveDouble(key: Swift.String, value: Swift.Double)
-  public static func saveBool(key: Swift.String, value: Swift.Bool)
-  public static func saveString(key: Swift.String, value: Swift.String)
-  public static func load(key: Swift.String) -> Any?
-  public static func loadCodable<T>(key: Swift.String, type: T.Type) -> T? where T : Swift.Decodable, T : Swift.Encodable
-  public static func loadInt(key: Swift.String) -> Swift.Int?
-  public static func loadDouble(key: Swift.String) -> Swift.Double?
-  public static func loadBool(key: Swift.String) -> Swift.Bool?
-  public static func loadString(key: Swift.String) -> Swift.String?
-  public static func saveBatch(dict: [Swift.String : Any])
-  public static func loadBatch(keys: [Swift.String]) -> [Swift.String : Any?]
-  public static func remove(key: Swift.String)
-  public static func removeBatch(keys: [Swift.String])
-  public static func allKeys() -> [Swift.String]
-  public static func exists(key: Swift.String) -> Swift.Bool
-  public static func clearAll()
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DatabaseDebugger {
-  public static func printAll()
-  public static func printRecent(limit: Swift.Int = 10)
-  public static func exportToCSV() -> Swift.String
-  public static func generateReport() -> [Swift.String : Any]
-  public static func createHealthEvent() -> [Swift.String : Any]
-  public static func clearCache()
-  @objc deinit
-}
-public class NetworkReachability {
-  public init?(hostName: Swift.String)
-  public func isReachable() -> Swift.Bool
-  @objc deinit
-}
-@objc public protocol FPSDelegate {
-  @objc optional func fps(fps: IAnalyticsSDK.FPS, currentFPS: Swift.Double)
-}
-@objc @_inheritsConvenienceInitializers open class FPS : ObjectiveC.NSObject {
-  open var isEnable: Swift.Bool
-  open var updateInterval: Swift.Double
-  weak open var delegate: (any IAnalyticsSDK.FPSDelegate)?
-  @objc override dynamic public init()
-  open func open()
-  open func close()
-  @objc deinit
-}
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class AnalyticsSDK : ObjectiveC.NSObject {
-  @objc public static let sdkVersion: Swift.String
-  @objc public static let shared: IAnalyticsSDK.AnalyticsSDK
-  public typealias DeepLinkHandlerObjC = @convention(block) (Foundation.NSURL, Foundation.NSDictionary) -> Swift.Void
-  @objc public func initialize(apiKey: Swift.String, clientId: Swift.String, aesSecret: Swift.String, apiUrl: Swift.String, debugMode: Swift.Bool = false, environment: Swift.String = "PRODUCTION", enableAdaptiveThrottling: Swift.Bool = true, initialUploadThreshold: Swift.Int = 20, initialUploadInterval: Swift.Int64 = 60000)
-  @objc public func trackFirstLaunchEvent()
-  @objc public func getFirstInstallTime() -> Foundation.Date?
-  @objc public func resetFirstInstallStatus()
-  @objc public func getClipboardPermissionStatus() -> Swift.Bool
-  @objc public func getClipboardParams() -> [Swift.String : Any]
-  @objc public func clearClipboardParams()
-  @objc public func getDeviceInfo() -> [Swift.String : Any]
-  @objc public func getAppInfo() -> [Swift.String : Any]
-  @objc public func getNetworkStatus() -> Swift.String
-  @objc public func getCPUInfo() -> [Swift.String : Any]
-  @objc public func getMemoryInfo() -> [Swift.String : Any]
-  @objc public func getScreenInfo() -> [Swift.String : Any]
-  @objc public func getTimezoneInfo() -> [Swift.String : Any]
-  @objc public func getLanguageInfo() -> [Swift.String : Any]
-  @objc public func getUserAgent(completion: @escaping (Swift.String) -> Swift.Void)
-  @objc public func setUserId(_ userId: Swift.String)
-  @objc public func getUserId() -> Swift.String?
-  @objc public func clearUserId()
-  @objc public func setUserProperty(_ key: Swift.String, value: Any)
-  @objc public func setUserProperties(_ properties: [Swift.String : Any])
-  @objc public func clearAllUserProperties()
-  @objc public func getAllUserProperties() -> [Swift.String : Any]
-  @objc public func clearUserProperty(_ key: Swift.String)
-  @objc public func trackEvent(_ eventName: Swift.String, params: [Swift.String : Any]? = nil)
-  @objc public func trackPage(_ pageName: Swift.String, params: [Swift.String : Any]? = nil)
-  @objc public func getEventQueue() -> [[Swift.String : Any]]
-  @objc public func clearEventQueue()
-  @objc public func getEventQueueSize() -> Swift.Int
-  public func setEnvironment(_ environment: IAnalyticsSDK.Environment)
-  public func getEnvironment() -> IAnalyticsSDK.Environment
-  @objc public func setApiUrl(_ url: Swift.String)
-  @objc public func getApiUrl() -> Swift.String
-  @objc public func setEventUploadThreshold(_ threshold: Swift.Int)
-  @objc public func setUploadInterval(_ interval: Foundation.TimeInterval)
-  @objc public func setDataRetentionDays(_ days: Swift.Int)
-  @objc public func setMaxRecords(_ maxRecords: Swift.Int)
-  @objc public func setMaxDatabaseSize(_ maxSize: Swift.Int)
-  @objc public func getDatabaseSize() -> Swift.Int
-  @objc public func cleanupLocalData() -> Swift.Int
-  @objc public func uploadEvents()
-  @objc override dynamic public func copy() -> Any
-  @objc override dynamic public func mutableCopy() -> Any
-  @objc public func registerDeepLinkHandlerObjC(_ handler: @escaping IAnalyticsSDK.AnalyticsSDK.DeepLinkHandlerObjC)
-  @objc public func handleOpenURL(_ url: Foundation.URL, options: [UIKit.UIApplication.OpenURLOptionsKey : Any] = [:])
-  @objc public static func parseURLParams(_ url: Foundation.URL) -> [Swift.String : Swift.String]
-  @objc public func trackRegisterEvent(utmParams: [Swift.String : Any]? = nil)
-  @objc public func trackRechargeEvent(amount: Swift.Double, utmParams: [Swift.String : Any]? = nil)
-  @objc public func setUserAgent(_ ua: Swift.String)
-  @objc public func setUtmParams(_ utm: [Swift.String : Any])
-  @objc public func setDeviceProperty(_ key: Swift.String, value: Any)
-  @objc public func clearDeviceProperty(_ key: Swift.String)
-  @objc public func getAllDeviceProperties() -> [Swift.String : Any]
-  @objc public func getUserAgentString() -> Swift.String
-  @objc public func getUtmParams() -> [Swift.String : Any]
-  @objc public func trackEventWithEventName(_ eventName: Swift.String, params: [Swift.String : Any]? = nil)
-  @objc public func trackPageWithPageName(_ pageName: Swift.String, params: [Swift.String : Any]? = nil)
-  @objc deinit
-}
-extension IAnalyticsSDK.AnalyticsSDK {
-  @objc dynamic public func setEnvironmentWithString(_ envString: Swift.String)
-  @objc dynamic public func getEnvironmentString() -> Swift.String
-}
-extension IAnalyticsSDK.AnalyticsSDK {
-  @objc dynamic public func setApiVersion(_ version: Swift.String)
-  @objc dynamic public func getApiBaseUrl() -> Swift.String
 }
 @_hasMissingDesignatedInitializers public class NetworkHealth {
   public static func checkHealth(completion: @escaping (IAnalyticsSDK.NetworkHealthResult) -> Swift.Void)
@@ -174,75 +32,6 @@ public struct NetworkHealthResult {
   public let latency: Swift.Int
   public let packetLoss: Swift.Int
   public init(latency: Swift.Int, packetLoss: Swift.Int)
-}
-@_hasMissingDesignatedInitializers public class TDLogger {
-  public static var consoleEnabled: Swift.Bool
-  public static let log: IAnalyticsSDK.TDLogger
-  public func info(_ message: Swift.String)
-  public func debug(_ message: Swift.String)
-  public func warning(_ message: Swift.String)
-  public func error(_ message: Swift.String)
-  public static func setup()
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class EventManager {
-  public static let shared: IAnalyticsSDK.EventManager
-  public func addEvent(_ event: IAnalyticsSDK.CustomEvent)
-  public func addEvents(_ events: [IAnalyticsSDK.CustomEvent])
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DebugMode {
-  public static let shared: IAnalyticsSDK.DebugMode
-  public func enable(verbose: Swift.Bool = false)
-  public func disable()
-  public func setNetworkDelay(_ delay: Foundation.TimeInterval)
-  public func log(_ message: Swift.String, type: IAnalyticsSDK.LogType = .info)
-  @objc deinit
-}
-public enum LogType {
-  case info
-  case warning
-  case error
-  case debug
-  public static func == (a: IAnalyticsSDK.LogType, b: IAnalyticsSDK.LogType) -> Swift.Bool
-  public func hash(into hasher: inout Swift.Hasher)
-  public var hashValue: Swift.Int {
-    get
-  }
-}
-public enum NetworkType : Swift.String {
-  case none
-  case wifi
-  case cellular
-  case ethernet
-  case unknown
-  public init?(rawValue: Swift.String)
-  public typealias RawValue = Swift.String
-  public var rawValue: Swift.String {
-    get
-  }
-}
-@objc @_inheritsConvenienceInitializers open class TDNetwork : ObjectiveC.NSObject {
-  public static var carrierName: Swift.String? {
-    get
-  }
-  public static var carrierCountry: Swift.String? {
-    get
-  }
-  public static var carrierMobileCountryCode: Swift.String? {
-    get
-  }
-  public static var carrierISOCountryCode: Swift.String? {
-    get
-  }
-  public static var carrierMobileNetworkCode: Swift.String? {
-    get
-  }
-  public static var carrierAllowVOIP: Swift.Bool {
-    get
-  }
-  @objc override dynamic public init()
-  @objc deinit
 }
 @_hasMissingDesignatedInitializers public class CommonParams {
   public static let shared: IAnalyticsSDK.CommonParams
@@ -254,31 +43,61 @@ public enum NetworkType : Swift.String {
   public func getAllCommonParams() -> [Swift.String : Any]
   @objc deinit
 }
-public struct NetworkResponse {
-  public let data: Foundation.Data?
-  public let headers: [Swift.AnyHashable : Any]?
-  public let statusCode: Swift.Int?
-  public let error: IAnalyticsSDK.NetworkError?
-  public init(data: Foundation.Data?, headers: [Swift.AnyHashable : Any]?, statusCode: Swift.Int?, error: IAnalyticsSDK.NetworkError? = nil)
+@objc public protocol FPSDelegate {
+  @objc optional func fps(fps: IAnalyticsSDK.DeviceFPS, currentFPS: Swift.Double)
 }
-@objc @_inheritsConvenienceInitializers open class Memory : ObjectiveC.NSObject {
-  open class func applicationUsage() -> (used: Swift.Double, total: Swift.Double)
-  open class func systemUsage() -> (free: Swift.Double, active: Swift.Double, inactive: Swift.Double, wired: Swift.Double, compressed: Swift.Double, total: Swift.Double)
+@objc @_inheritsConvenienceInitializers open class DeviceFPS : ObjectiveC.NSObject {
+  open var isEnable: Swift.Bool
+  open var updateInterval: Swift.Double
+  weak open var delegate: (any IAnalyticsSDK.FPSDelegate)?
   @objc override dynamic public init()
+  open func open()
+  open func close()
   @objc deinit
 }
-@_hasMissingDesignatedInitializers public class NetworkMonitor {
-  public typealias StatusChangeHandler = (Network.NWPath.Status) -> Swift.Void
-  public func startMonitoring(handler: @escaping IAnalyticsSDK.NetworkMonitor.StatusChangeHandler)
-  public func stopMonitoring()
-  public var currentStatus: Network.NWPath.Status {
+public enum NetworkError : Swift.Error {
+  case noConnection
+  case timeout
+  case invalidResponse
+  case serverError(Swift.String)
+  case unknown
+}
+public struct CustomEvent : Swift.Codable {
+  public let id: Swift.String
+  public let type: IAnalyticsSDK.EventType
+  public let name: Swift.String
+  public let timestamp: Foundation.TimeInterval
+  public var status: IAnalyticsSDK.EventStatus
+  public let priority: IAnalyticsSDK.EventPriority
+  public var params: [Swift.String : Any] {
+    get
+    set
+  }
+  public init(type: IAnalyticsSDK.EventType, name: Swift.String, params: [Swift.String : Any] = [:], priority: IAnalyticsSDK.EventPriority = .normal)
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+public class EventBuilder {
+  public init(type: IAnalyticsSDK.EventType, name: Swift.String)
+  @discardableResult
+  public func addParam(_ key: Swift.String, _ value: Any) -> IAnalyticsSDK.EventBuilder
+  @discardableResult
+  public func addParams(_ params: [Swift.String : Any]) -> IAnalyticsSDK.EventBuilder
+  @discardableResult
+  public func setPriority(_ priority: IAnalyticsSDK.EventPriority) -> IAnalyticsSDK.EventBuilder
+  public func build() -> IAnalyticsSDK.CustomEvent
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class DeviceCPU : ObjectiveC.NSObject {
+  public static var physicalCores: Swift.Int {
     get
   }
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class DataCompressor {
-  public static func compress(data: Foundation.Data) -> Foundation.Data
-  public static func decompress(data: Foundation.Data) -> Foundation.Data
+  public static var logicalCores: Swift.Int {
+    get
+  }
+  public static func systemUsage() -> (system: Swift.Double, user: Swift.Double, idle: Swift.Double, nice: Swift.Double)
+  public class func applicationUsage() -> Swift.Double
+  @objc override dynamic public init()
   @objc deinit
 }
 public enum Device {
@@ -752,91 +571,9 @@ extension IAnalyticsSDK.Device.CPU : Swift.CustomStringConvertible {
     get
   }
 }
-@_hasMissingDesignatedInitializers public class EventValidator {
-  public static let shared: IAnalyticsSDK.EventValidator
-  public func validate(_ event: IAnalyticsSDK.CustomEvent) -> (isValid: Swift.Bool, error: Swift.String?)
-  @objc deinit
-}
-@_hasMissingDesignatedInitializers public class UserPropertyManager {
-  public static let shared: IAnalyticsSDK.UserPropertyManager
-  public func setUserId(_ id: Swift.String)
-  public func clearUserId()
-  public func setProperty(_ key: Swift.String, value: Any)
-  public func setProperties(_ properties: [Swift.String : Any])
-  public func getProperty(_ key: Swift.String) -> Any?
-  public func getAllProperties() -> [Swift.String : Any]
-  public func removeProperty(_ key: Swift.String)
-  public func clearAllProperties()
-  public func registerPropertyChangeCallback(_ key: Swift.String, callback: @escaping (Swift.String, Any?) -> Swift.Void)
-  public func removePropertyChangeCallback(_ key: Swift.String)
-  @objc deinit
-}
-public enum NetworkError : Swift.Error {
-  case noConnection
-  case timeout
-  case invalidResponse
-  case serverError(Swift.String)
-  case unknown
-}
-@objc final public class TDKeychainUDIDManager : ObjectiveC.NSObject {
-  @objc public enum KeychainError : Swift.Int, Swift.Error {
-    case duplicateEntry
-    case unknown
-    case noData
-    case unexpectedData
-    case permissionDenied
-    public var localizedDescription: Swift.String {
-      get
-    }
-    public init?(rawValue: Swift.Int)
-    public typealias RawValue = Swift.Int
-    public static var _nsErrorDomain: Swift.String {
-      get
-    }
-    public var rawValue: Swift.Int {
-      get
-    }
-  }
-  public struct Configuration {
-    public let service: Swift.String
-    public let account: Swift.String
-    public init(service: Swift.String? = nil, account: Swift.String = "deviceUDID")
-  }
-  @objc public static let shared: IAnalyticsSDK.TDKeychainUDIDManager
-  public init(configuration: IAnalyticsSDK.TDKeychainUDIDManager.Configuration = Configuration())
-  @objc final public func getUDIDStorageInfo() -> [Swift.String : Any]
-  @objc final public func getUDID() throws -> Swift.String
-  @objc final public func resetUDID() throws
-  @objc deinit
-}
-public struct CustomEvent : Swift.Codable {
-  public let id: Swift.String
-  public let type: IAnalyticsSDK.EventType
-  public let name: Swift.String
-  public let timestamp: Foundation.TimeInterval
-  public var status: IAnalyticsSDK.EventStatus
-  public let priority: IAnalyticsSDK.EventPriority
-  public var params: [Swift.String : Any] {
-    get
-    set
-  }
-  public init(type: IAnalyticsSDK.EventType, name: Swift.String, params: [Swift.String : Any] = [:], priority: IAnalyticsSDK.EventPriority = .normal)
-  public init(from decoder: any Swift.Decoder) throws
-  public func encode(to encoder: any Swift.Encoder) throws
-}
-public class EventBuilder {
-  public init(type: IAnalyticsSDK.EventType, name: Swift.String)
-  @discardableResult
-  public func addParam(_ key: Swift.String, _ value: Any) -> IAnalyticsSDK.EventBuilder
-  @discardableResult
-  public func addParams(_ params: [Swift.String : Any]) -> IAnalyticsSDK.EventBuilder
-  @discardableResult
-  public func setPriority(_ priority: IAnalyticsSDK.EventPriority) -> IAnalyticsSDK.EventBuilder
-  public func build() -> IAnalyticsSDK.CustomEvent
-  @objc deinit
-}
 @_hasMissingDesignatedInitializers public class APIConfig {
   public static let shared: IAnalyticsSDK.APIConfig
+  public func setBaseUrl(_ url: Swift.String)
   public func setAPIVersion(_ version: Swift.String)
   public func setTimeout(_ timeout: Foundation.TimeInterval)
   public func setReadTimeout(_ timeout: Foundation.TimeInterval)
@@ -859,10 +596,9 @@ public class EventBuilder {
   public func addResponseInterceptor(_ interceptor: any IAnalyticsSDK.ResponseInterceptor)
   public func getRequestInterceptors() -> [any IAnalyticsSDK.RequestInterceptor]
   public func getResponseInterceptors() -> [any IAnalyticsSDK.ResponseInterceptor]
-  public func buildURL(_ path: Swift.String) -> Foundation.URL?
-  public func buildURL(_ path: Swift.String, parameters: [Swift.String : Any]) -> Foundation.URL?
   public func setApiKey(_ apiKey: Swift.String)
   public func setClientId(_ clientId: Swift.String)
+  public func setAESSecret(_ aesSecret: Swift.String)
   @objc deinit
 }
 public enum APILogLevel : Swift.Int {
@@ -885,6 +621,25 @@ public protocol RequestInterceptor {
 public protocol ResponseInterceptor {
   func intercept(response: Foundation.URLResponse?, data: Foundation.Data?, error: (any Swift.Error)?) -> (Foundation.URLResponse?, Foundation.Data?, (any Swift.Error)?)
 }
+@_hasMissingDesignatedInitializers public class DebugMode {
+  public static let shared: IAnalyticsSDK.DebugMode
+  public func enable(verbose: Swift.Bool = false)
+  public func disable()
+  public func setNetworkDelay(_ delay: Foundation.TimeInterval)
+  public func log(_ message: Swift.String, type: IAnalyticsSDK.LogType = .info)
+  @objc deinit
+}
+public enum LogType {
+  case info
+  case warning
+  case error
+  case debug
+  public static func == (a: IAnalyticsSDK.LogType, b: IAnalyticsSDK.LogType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
 public typealias MemoryUsage = (used: Swift.UInt64, total: Swift.UInt64)
 public typealias PerformanceReport = (cpuUsage: Swift.Double, fps: Swift.Int, memoryUsage: IAnalyticsSDK.MemoryUsage)
 public protocol PerformanceMonitorDelegate : AnyObject {
@@ -900,23 +655,209 @@ public protocol StatusBarConfigurator {
   var statusBarHidden: Swift.Bool { get set }
   var statusBarStyle: UIKit.UIStatusBarStyle { get set }
 }
-@_hasMissingDesignatedInitializers public class NetworkSpeedTester {
-  public static func testDownloadSpeed(url: Foundation.URL, completion: @escaping (Swift.Double) -> Swift.Void)
+public enum Environment : Swift.String, Swift.CaseIterable {
+  case development
+  case testing
+  case staging
+  case production
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [IAnalyticsSDK.Environment]
+  public typealias RawValue = Swift.String
+  nonisolated public static var allCases: [IAnalyticsSDK.Environment] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class EnvironmentConfig {
+  public static let shared: IAnalyticsSDK.EnvironmentConfig
+  public func setEnvironment(_ environment: IAnalyticsSDK.Environment)
+  public func getConfig() -> IAnalyticsSDK.EnvironmentConfiguration
+  public func getAllEnvironments() -> [IAnalyticsSDK.Environment]
+  public func registerEnvironmentChangeCallback(_ callback: @escaping (IAnalyticsSDK.Environment) -> Swift.Void)
+  public func isDevelopmentEnvironment() -> Swift.Bool
+  public func isProductionEnvironment() -> Swift.Bool
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers open class System : ObjectiveC.NSObject {
-  public static let hardware: IAnalyticsSDK.Hardware.Type
-  public static let cpu: IAnalyticsSDK.CPU.Type
-  public static let memory: IAnalyticsSDK.Memory.Type
-  public static let network: IAnalyticsSDK.TDNetwork.Type
-  @objc override dynamic public init()
+public struct EnvironmentConfiguration {
+  public let environment: IAnalyticsSDK.Environment
+  public let apiBaseUrl: Swift.String
+  public let description: Swift.String
+  public let uploadInterval: Foundation.TimeInterval
+  public let maxRetry: Swift.Int
+  public let batchSize: Swift.Int
+  public let debugLoggingEnabled: Swift.Bool
+  public let networkTimeout: Foundation.TimeInterval
+  public let dbCleanupInterval: Foundation.TimeInterval
+}
+@objc public enum ParameterSource : Swift.Int {
+  case deepLink = 0
+  case delayDeepLink = 1
+  case clipboard = 2
+  case unknown = 3
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+extension IAnalyticsSDK.ParameterSource {
+  public var stringValue: Swift.String {
+    get
+  }
+  public static func from(string: Swift.String) -> IAnalyticsSDK.ParameterSource
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class AnalyticsSDK : ObjectiveC.NSObject {
+  @objc public static let sdkVersion: Swift.String
+  @objc public static let shared: IAnalyticsSDK.AnalyticsSDK
+  public typealias DeepLinkHandlerObjC = @convention(block) (Foundation.NSURL, Foundation.NSDictionary) -> Swift.Void
+  @objc override dynamic public func copy() -> Any
+  @objc override dynamic public func mutableCopy() -> Any
+  @objc public func initialize(apiKey: Swift.String, clientId: Swift.String, aesSecret: Swift.String, apiUrl: Swift.String, debugMode: Swift.Bool = false, environment: Swift.String = "PRODUCTION", enableAdaptiveThrottling: Swift.Bool = true, initialUploadThreshold: Swift.Int = 20, initialUploadInterval: Swift.Int64 = 60000)
+  @objc public func setUserId(_ userId: Swift.String)
+  @objc public func getUserId() -> Swift.String?
+  @objc public func clearUserId()
+  @objc public func setUserProperty(_ key: Swift.String, value: Any)
+  @objc public func setUserProperties(_ properties: [Swift.String : Any])
+  @objc public func clearAllUserProperties()
+  @objc public func getAllUserProperties() -> [Swift.String : Any]
+  @objc public func clearUserProperty(_ key: Swift.String)
+  @objc public func getEventQueue() -> [[Swift.String : Any]]
+  @objc public func clearEventQueue()
+  @objc public func getEventQueueSize() -> Swift.Int
+  public func setEnvironment(_ environment: IAnalyticsSDK.Environment)
+  public func getEnvironment() -> IAnalyticsSDK.Environment
+  @objc public func setEventUploadThreshold(_ threshold: Swift.Int)
+  @objc public func setUploadInterval(_ interval: Foundation.TimeInterval)
+  @objc public func setDataRetentionDays(_ days: Swift.Int)
+  @objc public func setMaxRecords(_ maxRecords: Swift.Int)
+  @objc public func setMaxDatabaseSize(_ maxSize: Swift.Int)
+  @objc public func getDatabaseSize() -> Swift.Int
+  @objc public func cleanupLocalData() -> Swift.Int
+  @objc public func registerDeepLinkHandlerObjC(_ handler: @escaping IAnalyticsSDK.AnalyticsSDK.DeepLinkHandlerObjC)
+  @objc public func handleOpenURL(_ url: Foundation.URL, options: [UIKit.UIApplication.OpenURLOptionsKey : Any] = [:])
+  @objc public func handleDelayDeepLink(_ url: Foundation.URL, params: [Swift.String : Any] = [:])
+  @objc public func handleClipboardParams(_ clipboardContent: Swift.String)
+  @objc public func setUserAgent(_ ua: Swift.String)
+  @objc public func setUtmParams(_ utm: [Swift.String : Any])
+  @objc public func clearUtmParams()
+  @objc public func setDeviceProperty(_ key: Swift.String, value: Any)
+  @objc public func clearDeviceProperty(_ key: Swift.String)
+  @objc public func getAllDeviceProperties() -> [Swift.String : Any]
+  @objc public func getUserAgentString() -> Swift.String
+  @objc public func getUtmParams() -> [Swift.String : Any]
+  @objc public func getClipboardStringForce() -> Swift.String
+  @objc public func setParameterSource(_ source: IAnalyticsSDK.ParameterSource)
+  @objc public func getParameterSource() -> IAnalyticsSDK.ParameterSource
+  @objc public func getParameterSourceString() -> Swift.String
+  @objc public func setParameterSourceWithString(_ sourceString: Swift.String)
+  @objc public static let ParameterSourceDeepLink: Swift.String
+  @objc public static let ParameterSourceDelayDeepLink: Swift.String
+  @objc public static let ParameterSourceClipboard: Swift.String
+  @objc public static let ParameterSourceUnknown: Swift.String
+  @objc public func setParameterSourceWithConstant(_ sourceString: Swift.String)
   @objc deinit
 }
-@_hasMissingDesignatedInitializers public class EventUploader {
-  public static let shared: IAnalyticsSDK.EventUploader
-  public func uploadEvents(_ events: [IAnalyticsSDK.CustomEvent], completion: @escaping (Swift.Bool) -> Swift.Void)
-  public static func uploadEventContent(events: [[Swift.String : Any]])
+extension IAnalyticsSDK.AnalyticsSDK {
+  @objc dynamic public func trackEventWithEventName(_ eventName: Swift.String, params: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackPageWithPageName(_ pageName: Swift.String, params: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackRegisterEvent(utmParams: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackAppWakeupEvent(utmParams: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackRechargeEvent(amount: Swift.Double, utmParams: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackFirstLaunchEvent()
+  @objc dynamic public func trackPage(_ pageName: Swift.String, params: [Swift.String : Any]? = nil)
+  @objc dynamic public func trackEvent(_ eventName: Swift.String, params: [Swift.String : Any]? = nil)
+}
+extension IAnalyticsSDK.AnalyticsSDK {
+  @objc dynamic public func getNetworkStatus() -> Swift.String
+  @objc dynamic public func getUserAgent(completion: @escaping (Swift.String) -> Swift.Void)
+  @objc dynamic public func getFirstInstallTime() -> Foundation.Date?
+  @objc dynamic public func isFirstLaunch() -> Swift.Bool
+  @objc dynamic public func getClipboardParams() -> Swift.String
+  @objc dynamic public func clearClipboardParams()
+}
+public enum EventType : Swift.String, Swift.Codable {
+  case appLaunch
+  case appTerminate
+  case appEnterBackground
+  case appEnterForeground
+  case pageView
+  case buttonClick
+  case formSubmit
+  case search
+  case performance
+  case error
+  case crash
+  case custom
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum EventStatus : Swift.String, Swift.Codable {
+  case pending
+  case uploading
+  case success
+  case failed
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum EventPriority : Swift.Int, Swift.Codable {
+  case low
+  case normal
+  case high
+  case critical
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class UserPropertyManager {
+  public static let shared: IAnalyticsSDK.UserPropertyManager
+  public func setUserId(_ id: Swift.String)
+  public func clearUserId()
+  public func setProperty(_ key: Swift.String, value: Any)
+  public func setProperties(_ properties: [Swift.String : Any])
+  public func getProperty(_ key: Swift.String) -> Any?
+  public func getAllProperties() -> [Swift.String : Any]
+  public func removeProperty(_ key: Swift.String)
+  public func clearAllProperties()
+  public func registerPropertyChangeCallback(_ key: Swift.String, callback: @escaping (Swift.String, Any?) -> Swift.Void)
+  public func removePropertyChangeCallback(_ key: Swift.String)
   @objc deinit
+}
+@_hasMissingDesignatedInitializers public class RequestCompressor {
+  public static func compress(data: Foundation.Data) -> Foundation.Data
+  @objc deinit
+}
+public enum NetworkType : Swift.String {
+  case none
+  case wifi
+  case cellular
+  case ethernet
+  case unknown
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public enum ClipboardPermissionStatus : Swift.Int {
+  case unknown = 0
+  case allowed = 1
+  case denied = 2
+  case undetermined = 3
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
 }
 public class PerformanceMonitor {
   public enum Style {
@@ -961,6 +902,108 @@ extension IAnalyticsSDK.PerformanceMonitor {
   public func start()
   public func pause()
 }
+@_hasMissingDesignatedInitializers public class EventValidator {
+  public static let shared: IAnalyticsSDK.EventValidator
+  public func validate(_ event: IAnalyticsSDK.CustomEvent) -> (isValid: Swift.Bool, error: Swift.String?)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DataAdjuster {
+  public static func adjust(data: [Swift.String : Any]) -> [Swift.String : Any]
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class NetworkSpeedTester {
+  public static func testDownloadSpeed(url: Foundation.URL, completion: @escaping (Swift.Double) -> Swift.Void)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class TDLogger {
+  public static var consoleEnabled: Swift.Bool
+  public static let log: IAnalyticsSDK.TDLogger
+  public func info(_ message: Swift.String)
+  public func debug(_ message: Swift.String)
+  public func warning(_ message: Swift.String)
+  public func error(_ message: Swift.String)
+  public static func setup()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class NetworkService {
+  public static func get(request: IAnalyticsSDK.NetworkRequest, completion: @escaping (IAnalyticsSDK.NetworkResponse) -> Swift.Void)
+  public static func post(request: IAnalyticsSDK.NetworkRequest, completion: @escaping (IAnalyticsSDK.NetworkResponse) -> Swift.Void)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DatabaseManager {
+  public static func save(key: Swift.String, value: Any)
+  public static func saveCodable<T>(key: Swift.String, object: T) where T : Swift.Decodable, T : Swift.Encodable
+  public static func saveInt(key: Swift.String, value: Swift.Int)
+  public static func saveDouble(key: Swift.String, value: Swift.Double)
+  public static func saveBool(key: Swift.String, value: Swift.Bool)
+  public static func saveString(key: Swift.String, value: Swift.String)
+  public static func load(key: Swift.String) -> Any?
+  public static func loadCodable<T>(key: Swift.String, type: T.Type) -> T? where T : Swift.Decodable, T : Swift.Encodable
+  public static func loadInt(key: Swift.String) -> Swift.Int?
+  public static func loadDouble(key: Swift.String) -> Swift.Double?
+  public static func loadBool(key: Swift.String) -> Swift.Bool?
+  public static func loadString(key: Swift.String) -> Swift.String?
+  public static func saveBatch(dict: [Swift.String : Any])
+  public static func loadBatch(keys: [Swift.String]) -> [Swift.String : Any?]
+  public static func remove(key: Swift.String)
+  public static func removeBatch(keys: [Swift.String])
+  public static func allKeys() -> [Swift.String]
+  public static func exists(key: Swift.String) -> Swift.Bool
+  public static func clearAll()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers public class DatabaseDebugger {
+  public static func printAll()
+  public static func printRecent(limit: Swift.Int = 10)
+  public static func exportToCSV() -> Swift.String
+  public static func generateReport() -> [Swift.String : Any]
+  public static func createHealthEvent() -> [Swift.String : Any]
+  public static func clearCache()
+  @objc deinit
+}
+@objc final public class TDKeychainUDIDManager : ObjectiveC.NSObject {
+  @objc public enum KeychainError : Swift.Int, Swift.Error {
+    case duplicateEntry
+    case unknown
+    case noData
+    case unexpectedData
+    case permissionDenied
+    public var localizedDescription: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public static var _nsErrorDomain: Swift.String {
+      get
+    }
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public struct Configuration {
+    public let service: Swift.String
+    public let account: Swift.String
+    public init(service: Swift.String? = nil, account: Swift.String = "deviceUDID")
+  }
+  @objc public static let shared: IAnalyticsSDK.TDKeychainUDIDManager
+  public init(configuration: IAnalyticsSDK.TDKeychainUDIDManager.Configuration = Configuration())
+  @objc final public func getUDIDStorageInfo() -> [Swift.String : Any]
+  @objc final public func getUDID() throws -> Swift.String
+  @objc final public func resetUDID() throws
+  @objc deinit
+}
+public struct NetworkResponse {
+  public let data: Foundation.Data?
+  public let headers: [Swift.AnyHashable : Any]?
+  public let statusCode: Swift.Int?
+  public let error: IAnalyticsSDK.NetworkError?
+  public init(data: Foundation.Data?, headers: [Swift.AnyHashable : Any]?, statusCode: Swift.Int?, error: IAnalyticsSDK.NetworkError? = nil)
+}
+@_hasMissingDesignatedInitializers public class DataCompressor {
+  public static func compress(data: Foundation.Data) -> Foundation.Data
+  public static func decompress(data: Foundation.Data) -> Foundation.Data
+  @objc deinit
+}
 public struct NetworkRequest {
   public let url: Foundation.URL
   public let method: Swift.String
@@ -968,7 +1011,17 @@ public struct NetworkRequest {
   public let body: Foundation.Data?
   public init(url: Foundation.URL, method: Swift.String = "GET", headers: [Swift.String : Swift.String]? = nil, body: Foundation.Data? = nil)
 }
-@objc @_inheritsConvenienceInitializers open class Hardware : ObjectiveC.NSObject {
+@_hasMissingDesignatedInitializers public class AESEncryptionUtil {
+  public static func decrypt(encryptedBase64: Swift.String, clientSecret: Swift.String, salt: Swift.String) throws -> Swift.String
+  public static func encrypt(plainText: Swift.String, clientSecret: Swift.String, salt: Swift.String) throws -> Swift.String
+  @objc deinit
+}
+public class NetworkReachability {
+  public init?(hostName: Swift.String)
+  public func isReachable() -> Swift.Bool
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class HardwareHardware : ObjectiveC.NSObject {
   public static var uptime: Foundation.Date {
     get
   }
@@ -1006,8 +1059,22 @@ public struct NetworkRequest {
   @objc override dynamic public init()
   @objc deinit
 }
-@_hasMissingDesignatedInitializers public class DataAdjuster {
-  public static func adjust(data: [Swift.String : Any]) -> [Swift.String : Any]
+@_hasMissingDesignatedInitializers public class NetworkMonitor {
+  public typealias StatusChangeHandler = (Swift.Bool) -> Swift.Void
+  public static let kNetworkRetryInterval: Swift.Double
+  public func startMonitoring(handler: @escaping IAnalyticsSDK.NetworkMonitor.StatusChangeHandler)
+  public func stopMonitoring()
+  public var isNetworkAvailable: Swift.Bool {
+    get
+  }
+  public func checkNetworkPermission() -> Swift.Bool
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class DeviceSystem : ObjectiveC.NSObject {
+  public static let hardware: IAnalyticsSDK.HardwareHardware.Type
+  public static let cpu: IAnalyticsSDK.DeviceCPU.Type
+  public static let memory: IAnalyticsSDK.DeviceMemory.Type
+  @objc override dynamic public init()
   @objc deinit
 }
 @_hasMissingDesignatedInitializers public class NetworkInfoCollector {
@@ -1015,122 +1082,6 @@ public struct NetworkRequest {
   public static func currentNetworkType() -> Swift.String
   @objc deinit
 }
-@objc @_inheritsConvenienceInitializers open class CPU : ObjectiveC.NSObject {
-  public static var physicalCores: Swift.Int {
-    get
-  }
-  public static var logicalCores: Swift.Int {
-    get
-  }
-  public static func systemUsage() -> (system: Swift.Double, user: Swift.Double, idle: Swift.Double, nice: Swift.Double)
-  public class func applicationUsage() -> Swift.Double
-  @objc override dynamic public init()
-  @objc deinit
-}
-@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class TecdoDeviceInfo : ObjectiveC.NSObject {
-  @objc public static let shared: IAnalyticsSDK.TecdoDeviceInfo
-  @objc public func isTrackingAuthorized() -> Swift.Bool
-  @objc public func getUDID() -> Swift.String
-  @objc public func getUserAgent(completion: @escaping (Swift.String) -> Swift.Void)
-  @objc public func clearUserAgentCache()
-  @objc public func getNetworkStatus() -> Swift.String
-  public func getMemoryInfo() -> [Swift.String : Any]
-  public func getDeviceInfo() -> [Swift.String : Any]
-  @objc public func getLanguageInfo() -> [Swift.String : Any]
-  public func getAppInfo() -> [Swift.String : Any]
-  public func getScreenInfo() -> [Swift.String : Any]
-  @objc public func getCPUInfo() -> [Swift.String : Any]
-  @objc public func getTimezoneInfo() -> [Swift.String : Any]
-  @objc public func getIDFV() -> Swift.String
-  @objc public func getIDFA() -> Swift.String
-  @objc deinit
-}
-public enum EventType : Swift.String, Swift.Codable {
-  case appLaunch
-  case appTerminate
-  case appEnterBackground
-  case appEnterForeground
-  case pageView
-  case buttonClick
-  case formSubmit
-  case search
-  case performance
-  case error
-  case crash
-  case custom
-  public init?(rawValue: Swift.String)
-  public typealias RawValue = Swift.String
-  public var rawValue: Swift.String {
-    get
-  }
-}
-public enum EventStatus : Swift.String, Swift.Codable {
-  case pending
-  case uploading
-  case success
-  case failed
-  public init?(rawValue: Swift.String)
-  public typealias RawValue = Swift.String
-  public var rawValue: Swift.String {
-    get
-  }
-}
-public enum EventPriority : Swift.Int, Swift.Codable {
-  case low
-  case normal
-  case high
-  case critical
-  public init?(rawValue: Swift.Int)
-  public typealias RawValue = Swift.Int
-  public var rawValue: Swift.Int {
-    get
-  }
-}
-public enum Environment : Swift.String, Swift.CaseIterable {
-  case development
-  case testing
-  case staging
-  case production
-  public init?(rawValue: Swift.String)
-  public typealias AllCases = [IAnalyticsSDK.Environment]
-  public typealias RawValue = Swift.String
-  nonisolated public static var allCases: [IAnalyticsSDK.Environment] {
-    get
-  }
-  public var rawValue: Swift.String {
-    get
-  }
-}
-@_hasMissingDesignatedInitializers public class EnvironmentConfig {
-  public static let shared: IAnalyticsSDK.EnvironmentConfig
-  public func setEnvironment(_ environment: IAnalyticsSDK.Environment)
-  public func getConfig() -> IAnalyticsSDK.EnvironmentConfiguration
-  public func getAllEnvironments() -> [IAnalyticsSDK.Environment]
-  public func registerEnvironmentChangeCallback(_ callback: @escaping (IAnalyticsSDK.Environment) -> Swift.Void)
-  public func isDevelopmentEnvironment() -> Swift.Bool
-  public func isProductionEnvironment() -> Swift.Bool
-  @objc deinit
-}
-public struct EnvironmentConfiguration {
-  public let environment: IAnalyticsSDK.Environment
-  public let apiBaseUrl: Swift.String
-  public let description: Swift.String
-  public let uploadInterval: Foundation.TimeInterval
-  public let maxRetry: Swift.Int
-  public let batchSize: Swift.Int
-  public let debugLoggingEnabled: Swift.Bool
-  public let networkTimeout: Foundation.TimeInterval
-  public let dbCleanupInterval: Foundation.TimeInterval
-}
-@_hasMissingDesignatedInitializers public class RequestCompressor {
-  public static func compress(data: Foundation.Data) -> Foundation.Data
-  @objc deinit
-}
-extension IAnalyticsSDK.LogType : Swift.Equatable {}
-extension IAnalyticsSDK.LogType : Swift.Hashable {}
-extension IAnalyticsSDK.NetworkType : Swift.Equatable {}
-extension IAnalyticsSDK.NetworkType : Swift.Hashable {}
-extension IAnalyticsSDK.NetworkType : Swift.RawRepresentable {}
 extension IAnalyticsSDK.Device.Orientation : Swift.Equatable {}
 extension IAnalyticsSDK.Device.Orientation : Swift.Hashable {}
 extension IAnalyticsSDK.Device.CameraType : Swift.Equatable {}
@@ -1140,12 +1091,17 @@ extension IAnalyticsSDK.Device.ThermalState : Swift.Equatable {}
 @available(iOS 11.0, watchOS 4.0, macOS 10.10.3, tvOS 11.0, *)
 extension IAnalyticsSDK.Device.ThermalState : Swift.Hashable {}
 extension IAnalyticsSDK.Device.CPU : Swift.Hashable {}
-extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.Equatable {}
-extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.Hashable {}
-extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.RawRepresentable {}
 extension IAnalyticsSDK.APILogLevel : Swift.Equatable {}
 extension IAnalyticsSDK.APILogLevel : Swift.Hashable {}
 extension IAnalyticsSDK.APILogLevel : Swift.RawRepresentable {}
+extension IAnalyticsSDK.LogType : Swift.Equatable {}
+extension IAnalyticsSDK.LogType : Swift.Hashable {}
+extension IAnalyticsSDK.Environment : Swift.Equatable {}
+extension IAnalyticsSDK.Environment : Swift.Hashable {}
+extension IAnalyticsSDK.Environment : Swift.RawRepresentable {}
+extension IAnalyticsSDK.ParameterSource : Swift.Equatable {}
+extension IAnalyticsSDK.ParameterSource : Swift.Hashable {}
+extension IAnalyticsSDK.ParameterSource : Swift.RawRepresentable {}
 extension IAnalyticsSDK.EventType : Swift.Equatable {}
 extension IAnalyticsSDK.EventType : Swift.Hashable {}
 extension IAnalyticsSDK.EventType : Swift.RawRepresentable {}
@@ -1155,6 +1111,12 @@ extension IAnalyticsSDK.EventStatus : Swift.RawRepresentable {}
 extension IAnalyticsSDK.EventPriority : Swift.Equatable {}
 extension IAnalyticsSDK.EventPriority : Swift.Hashable {}
 extension IAnalyticsSDK.EventPriority : Swift.RawRepresentable {}
-extension IAnalyticsSDK.Environment : Swift.Equatable {}
-extension IAnalyticsSDK.Environment : Swift.Hashable {}
-extension IAnalyticsSDK.Environment : Swift.RawRepresentable {}
+extension IAnalyticsSDK.NetworkType : Swift.Equatable {}
+extension IAnalyticsSDK.NetworkType : Swift.Hashable {}
+extension IAnalyticsSDK.NetworkType : Swift.RawRepresentable {}
+extension IAnalyticsSDK.ClipboardPermissionStatus : Swift.Equatable {}
+extension IAnalyticsSDK.ClipboardPermissionStatus : Swift.Hashable {}
+extension IAnalyticsSDK.ClipboardPermissionStatus : Swift.RawRepresentable {}
+extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.Equatable {}
+extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.Hashable {}
+extension IAnalyticsSDK.TDKeychainUDIDManager.KeychainError : Swift.RawRepresentable {}

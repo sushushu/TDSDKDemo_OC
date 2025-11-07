@@ -6,6 +6,7 @@
 //
 
 #import "AppDelegate.h"
+#import "IAnalyticsSDK/IAnalyticsSDK-Swift.h"
 
 @interface AppDelegate ()
 
@@ -16,6 +17,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+  
     return YES;
 }
 
@@ -36,5 +39,9 @@
     // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    [[AnalyticsSDK shared] handleOpenURL:url options:options];
+    return YES;
+}
 
 @end

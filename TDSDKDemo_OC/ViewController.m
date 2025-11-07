@@ -16,12 +16,12 @@
 }
 
 - (void)setupSDK {
-    [[AnalyticsSDK shared] initializeWithApiKey:@"123456"
-                                       clientId:@"woniu"
-                                      aesSecret:@"YourPresharedSecretKey123456789012"
+    [[AnalyticsSDK shared] initializeWithApiKey:@"95c138191e724b51b197d86beebc1af4"
+                                       clientId:@"qahwatv"
+                                      aesSecret:@"7921d82cbd104b039532e14f98cc3c73"
                                          apiUrl:@"http://dev01-w2a.tec-develop.cn/ted-w2a-track"
                                       debugMode:YES
-                                    environment:@"DEVELOPMENT"
+                                    environment:@"PRODUCTION"
                        enableAdaptiveThrottling:YES
                          initialUploadThreshold:20
                           initialUploadInterval:60000];
@@ -63,10 +63,6 @@
     [self addTestButtonWithTitle:@"上报自定义事件" action:@selector(testTrackEvent)];
     [self addTestButtonWithTitle:@"上报页面访问" action:@selector(testTrackPage)];
     [self addTestButtonWithTitle:@"获取事件队列" action:@selector(testGetEventQueue)];
-    [self addTestButtonWithTitle:@"清空事件队列" action:@selector(testClearEventQueue)];
-    [self addTestButtonWithTitle:@"获取事件队列大小" action:@selector(testGetEventQueueSize)];
-    [self addTestButtonWithTitle:@"获取设备信息" action:@selector(testDeviceInfo)];
-    [self addTestButtonWithTitle:@"获取应用信息" action:@selector(testAppInfo)];
     [self addTestButtonWithTitle:@"获取网络状态" action:@selector(testNetworkStatus)];
     [self addTestButtonWithTitle:@"上报用户注册事件" action:@selector(testTrackRegisterEvent)];
     [self addTestButtonWithTitle:@"上报用户充值事件" action:@selector(testTrackRechargeEvent)];
@@ -164,14 +160,6 @@
 - (void)testGetEventQueueSize {
     NSInteger size = [[AnalyticsSDK shared] getEventQueueSize];
     [self appendLog:[NSString stringWithFormat:@"【事件队列大小】%ld", (long)size]];
-}
-- (void)testDeviceInfo {
-    NSDictionary *info = [[AnalyticsSDK shared] getDeviceInfo];
-    [self appendLog:[NSString stringWithFormat:@"【设备信息】%@", info]];
-}
-- (void)testAppInfo {
-    NSDictionary *info = [[AnalyticsSDK shared] getAppInfo];
-    [self appendLog:[NSString stringWithFormat:@"【应用信息】%@", info]];
 }
 - (void)testNetworkStatus {
     NSString *status = [[AnalyticsSDK shared] getNetworkStatus];
